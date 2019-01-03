@@ -24,7 +24,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var cameraView: UIView!
     
-    @IBOutlet weak var locationCoordinates: UILabel!
+    @IBOutlet weak var coordinatesLabel: UILabel!
+    @IBOutlet weak var altitudeLabel: UILabel!
+    @IBOutlet weak var speedLabel: UILabel!
     
     @IBOutlet weak var zAccelPosHeight: NSLayoutConstraint!
     @IBOutlet weak var zAccelNegHeight: NSLayoutConstraint!
@@ -159,9 +161,13 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         let roundedLatitude = Float(round(1000 * latitude) / 1000)
         let roundedLongitude = Float(round(1000 * longitude) / 1000)
+        let roundedAltitude = Float(round(100 * altitude) / 100)
+        let roundedSpeed = Float(round(100 * speed) / 100)
         
         // Update UI
-        locationCoordinates.text = "\(roundedLatitude), \(roundedLongitude)"
+        coordinatesLabel.text = "\(roundedLatitude), \(roundedLongitude)"
+        altitudeLabel.text = "\(roundedAltitude) FT"
+        speedLabel.text = "\(roundedSpeed) MPH"
         
         // Save Location Data to Firebase
         self.databaseRef.child("flights/\(uid!)/live/location/latitude").setValue(latitude)
