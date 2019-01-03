@@ -27,6 +27,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var coordinatesLabel: UILabel!
     @IBOutlet weak var altitudeLabel: UILabel!
     @IBOutlet weak var speedLabel: UILabel!
+    @IBOutlet weak var sceneLabel: UILabel!
     
     @IBOutlet weak var zAccelPosHeight: NSLayoutConstraint!
     @IBOutlet weak var zAccelNegHeight: NSLayoutConstraint!
@@ -277,6 +278,8 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         faceDetector.process(visionImage) { faces, error in
             guard error == nil, let faces = faces, !faces.isEmpty else {
                 print(error?.localizedDescription ?? "No Face Detected")
+                
+                self.detectSceneIn(image: image, toUpdate: "updateUI")
                 return
             }
             
@@ -313,7 +316,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
             
             // Run Vision Algorithms
-            self.detectSceneIn(image: image)
+            self.detectSceneIn(image: image, toUpdate: "face")
             self.detectGenderIn(image: image)
             self.detectAgeIn(image: image)
         }
@@ -344,7 +347,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    func detectSceneIn(image: UIImage) {
+    func detectSceneIn(image: UIImage, toUpdate: String) {
         guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
             fatalError("Can't load MobileNet model.")
         }
@@ -357,8 +360,14 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             let scenes = topResult.identifier.components(separatedBy: ", ")
             let scene = scenes[0].replacingOccurrences(of: "_", with: " ").capitalized
             
-            // Save Data
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
+            // Save Data or Update UI
+            if toUpdate == "face" {
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
+            } else if toUpdate == "updateUI" {
+                DispatchQueue.main.async {
+                    self.sceneLabel.text = scene
+                }
+            }
         }
         
         let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)

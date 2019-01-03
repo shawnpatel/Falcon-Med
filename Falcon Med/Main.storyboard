@@ -97,7 +97,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude, Longitude" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7p-rl-7ac">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lat, Long" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7p-rl-7ac">
                                                 <rect key="frame" x="0.0" y="15" width="236.66666666666666" height="15.666666666666664"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <nil key="textColor"/>
@@ -261,8 +261,24 @@
                                                 <rect key="frame" x="0.0" y="278" width="236.66666666666666" height="2"/>
                                                 <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </progressView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scene" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4x-t2-nl6">
+                                                <rect key="frame" x="0.0" y="283" width="236.66666666666666" height="12"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scene Analysis" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qH7-9C-28O">
+                                                <rect key="frame" x="0.0" y="298" width="236.66666666666666" height="15.666666666666686"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="IQL-oV-Dph">
+                                                <rect key="frame" x="0.0" y="316.66666666666669" width="236.66666666666666" height="2"/>
+                                                <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </progressView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azr-8W-6ha">
-                                                <rect key="frame" x="0.0" y="283" width="236.66666666666666" height="77"/>
+                                                <rect key="frame" x="0.0" y="321.66666666666669" width="236.66666666666666" height="38.333333333333314"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
@@ -307,6 +323,7 @@
                         <outlet property="cameraView" destination="Ivu-7t-Ybs" id="rRF-Rv-fLk"/>
                         <outlet property="coordinatesLabel" destination="D7p-rl-7ac" id="hLJ-pO-ZGP"/>
                         <outlet property="map" destination="xrz-Uu-30m" id="vnc-9Y-T0y"/>
+                        <outlet property="sceneLabel" destination="qH7-9C-28O" id="G7K-2X-kBd"/>
                         <outlet property="speedLabel" destination="49v-sX-YXe" id="bcq-Ae-vD3"/>
                         <outlet property="zAccelNegHeight" destination="7SJ-bK-aWW" id="zuo-7b-OCh"/>
                         <outlet property="zAccelPosHeight" destination="GCe-7A-cmR" id="I7a-YK-tgc"/>
