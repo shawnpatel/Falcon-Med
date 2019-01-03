@@ -1,1 +1,12 @@
+AvionicsViewController
+- Configure UI for telemetric data.
+- Configure MKPointAnnotations to display image analysis and telemetric data when face is detected.
+- Configure MKPointAnnotations to display telemetric data when historical data timer is triggered.
 
+FlightSummaryViewController <Create>
+- Display map with face and historical MKPointAnnotations.
+- Connect MKPointAnnotations to resemble a flight map.
+
+TrackViewController <Create>
+
+HistoricalFlightsTableViewController <Create>

@@ -66,10 +66,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     var heading: CLLocationDirection!
     
-    var pitch: Double!
-    var roll: Double!
-    var yaw: Double!
-    
     var accelX: Double!
     var accelY: Double!
     var accelZ: Double!
@@ -184,25 +180,20 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     @objc func readTelemetry() {
         if let data = motionManager.deviceMotion {
-            let attitude = data.attitude
             let acceleration = data.userAcceleration
             
-            pitch = attitude.pitch
-            roll = attitude.roll
-            yaw = attitude.yaw
-            
-            accelX = acceleration.x
-            accelY = acceleration.y
+            accelX = acceleration.y     // Since device is landscape, x-axis is portrait y-xais.
+            accelY = acceleration.x     // Since device is landscape, y-axis is portrait x-axis.
             accelZ = acceleration.z
             
             // Update UI
             if accelZ > 0 {
-                let multiplier = CGFloat(accelZ / 1)
+                let multiplier = CGFloat(accelZ / 5)
                 
                 zAccelNegHeight = zAccelNegHeight.setMultiplier(0.001)
                 zAccelPosHeight = zAccelPosHeight.setMultiplier(multiplier)
             } else if accelZ < 0 {
-                let multiplier = CGFloat(-accelZ / 1)
+                let multiplier = CGFloat(-accelZ / 5)
                 
                 zAccelPosHeight = zAccelPosHeight.setMultiplier(0.001)
                 zAccelNegHeight = zAccelNegHeight.setMultiplier(multiplier)
@@ -212,10 +203,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             }
             
             // Save Motion Data to Firebase
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/pitch").setValue(pitch)
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/roll").setValue(roll)
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/yaw").setValue(yaw)
-            
             self.databaseRef.child("flights/\(uid!)/live/telemetry/accelX").setValue(accelX)
             self.databaseRef.child("flights/\(uid!)/live/telemetry/accelY").setValue(accelY)
             self.databaseRef.child("flights/\(uid!)/live/telemetry/accelZ").setValue(accelZ)
@@ -303,6 +290,11 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             // Upload Image
             self.uploadFaceImage(image)
+            
+            // Add Pin to Map
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+            self.map.addAnnotation(annotation)
             
             // Save Location Data
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/latitude").setValue(self.latitude)
