@@ -7,23 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CAAF35EA21DDB3510069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35E921DDB3510069C4E2 /* AppDelegate.swift */; };
-		CAAF35EC21DDB3510069C4E2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35EB21DDB3510069C4E2 /* FirstViewController.swift */; };
-		CAAF35EE21DDB3510069C4E2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35ED21DDB3510069C4E2 /* SecondViewController.swift */; };
-		CAAF35F121DDB3510069C4E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF35EF21DDB3510069C4E2 /* Main.storyboard */; };
-		CAAF35F321DDB3530069C4E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAAF35F221DDB3530069C4E2 /* Assets.xcassets */; };
-		CAAF35F621DDB3530069C4E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF35F421DDB3530069C4E2 /* LaunchScreen.storyboard */; };
+		CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */; };
+		CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */; };
+		CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */; };
+		CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */; };
+		CAAF360E21DDB3B70069C4E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360121DDB3B30069C4E2 /* Assets.xcassets */; };
+		CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360221DDB3B60069C4E2 /* GenderNet.mlmodel */; };
+		CAAF361021DDB3B70069C4E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360321DDB3B60069C4E2 /* Main.storyboard */; };
+		CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */; };
+		CAAF361221DDB3B70069C4E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360521DDB3B60069C4E2 /* GoogleService-Info.plist */; };
+		CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */; };
+		CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */; };
+		CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360921DDB3B70069C4E2 /* TODO.txt */; };
+		F2F1B89F4715A0BAAFD80CDC /* Pods_Falcon_Med.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Falcon_Med.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F6CD12C52BDB5B0C87D6511 /* Pods-Falcon Med.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.release.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.release.xcconfig"; sourceTree = "<group>"; };
+		8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.debug.xcconfig"; sourceTree = "<group>"; };
 		CAAF35E621DDB3510069C4E2 /* Falcon Med.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Falcon Med.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CAAF35E921DDB3510069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CAAF35EB21DDB3510069C4E2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		CAAF35ED21DDB3510069C4E2 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		CAAF35F021DDB3510069C4E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CAAF35F221DDB3530069C4E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CAAF35F521DDB3530069C4E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CAAF35F721DDB3530069C4E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AgeNet.mlmodel; sourceTree = "<group>"; };
+		CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GoogLeNetPlaces.mlmodel; sourceTree = "<group>"; };
+		CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvionicsViewController.swift; sourceTree = "<group>"; };
+		CAAF360121DDB3B30069C4E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CAAF360221DDB3B60069C4E2 /* GenderNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GenderNet.mlmodel; sourceTree = "<group>"; };
+		CAAF360321DDB3B60069C4E2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightViewController.swift; sourceTree = "<group>"; };
+		CAAF360521DDB3B60069C4E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CAAF360821DDB3B70069C4E2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAAF360921DDB3B70069C4E2 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2F1B89F4715A0BAAFD80CDC /* Pods_Falcon_Med.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16B0D1BF72DA0E55A2700325 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CAAF35DD21DDB3510069C4E2 = {
 			isa = PBXGroup;
 			children = (
 				CAAF35E821DDB3510069C4E2 /* Falcon Med */,
 				CAAF35E721DDB3510069C4E2 /* Products */,
+				E9048A85C9EC68181EB5D6CE /* Pods */,
+				16B0D1BF72DA0E55A2700325 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +83,38 @@
 		CAAF35E821DDB3510069C4E2 /* Falcon Med */ = {
 			isa = PBXGroup;
 			children = (
-				CAAF35E921DDB3510069C4E2 /* AppDelegate.swift */,
-				CAAF35EB21DDB3510069C4E2 /* FirstViewController.swift */,
-				CAAF35ED21DDB3510069C4E2 /* SecondViewController.swift */,
-				CAAF35EF21DDB3510069C4E2 /* Main.storyboard */,
-				CAAF35F221DDB3530069C4E2 /* Assets.xcassets */,
-				CAAF35F421DDB3530069C4E2 /* LaunchScreen.storyboard */,
-				CAAF35F721DDB3530069C4E2 /* Info.plist */,
+				CAAF360921DDB3B70069C4E2 /* TODO.txt */,
+				CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */,
+				CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */,
+				CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */,
+				CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */,
+				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
+				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
+				CAAF360121DDB3B30069C4E2 /* Assets.xcassets */,
+				CAAF361721DDB4120069C4E2 /* ML Models */,
+				CAAF360821DDB3B70069C4E2 /* Info.plist */,
+				CAAF360521DDB3B60069C4E2 /* GoogleService-Info.plist */,
 			);
 			path = "Falcon Med";
+			sourceTree = "<group>";
+		};
+		CAAF361721DDB4120069C4E2 /* ML Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */,
+				CAAF360221DDB3B60069C4E2 /* GenderNet.mlmodel */,
+				CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */,
+			);
+			name = "ML Models";
+			sourceTree = "<group>";
+		};
+		E9048A85C9EC68181EB5D6CE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */,
+				7F6CD12C52BDB5B0C87D6511 /* Pods-Falcon Med.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +124,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAAF35FA21DDB3530069C4E2 /* Build configuration list for PBXNativeTarget "Falcon Med" */;
 			buildPhases = (
+				20E5ADFFF1BDD21ED8A0797A /* [CP] Check Pods Manifest.lock */,
 				CAAF35E221DDB3510069C4E2 /* Sources */,
 				CAAF35E321DDB3510069C4E2 /* Frameworks */,
 				CAAF35E421DDB3510069C4E2 /* Resources */,
+				21507B8B99D873DA081309CD /* [CP] Embed Pods Frameworks */,
+				A5D6B05942A891C14583B630 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -99,6 +152,7 @@
 				TargetAttributes = {
 					CAAF35E521DDB3510069C4E2 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
@@ -125,45 +179,105 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAAF35F621DDB3530069C4E2 /* LaunchScreen.storyboard in Resources */,
-				CAAF35F321DDB3530069C4E2 /* Assets.xcassets in Resources */,
-				CAAF35F121DDB3510069C4E2 /* Main.storyboard in Resources */,
+				CAAF360E21DDB3B70069C4E2 /* Assets.xcassets in Resources */,
+				CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */,
+				CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */,
+				CAAF361021DDB3B70069C4E2 /* Main.storyboard in Resources */,
+				CAAF361221DDB3B70069C4E2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		20E5ADFFF1BDD21ED8A0797A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Falcon Med-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21507B8B99D873DA081309CD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5D6B05942A891C14583B630 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVFaceDetectorResources.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVFaceDetectorResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CAAF35E221DDB3510069C4E2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAAF35EE21DDB3510069C4E2 /* SecondViewController.swift in Sources */,
-				CAAF35EA21DDB3510069C4E2 /* AppDelegate.swift in Sources */,
-				CAAF35EC21DDB3510069C4E2 /* FirstViewController.swift in Sources */,
+				CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */,
+				CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */,
+				CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */,
+				CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */,
+				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
+				CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */,
+				CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		CAAF35EF21DDB3510069C4E2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CAAF35F021DDB3510069C4E2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		CAAF35F421DDB3530069C4E2 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CAAF35F521DDB3530069C4E2 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CAAF35F821DDB3530069C4E2 /* Debug */ = {
@@ -284,8 +398,10 @@
 		};
 		CAAF35FB21DDB3530069C4E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YBJ2RY5U57;
 				INFOPLIST_FILE = "Falcon Med/Info.plist";
@@ -295,6 +411,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shawnpatel.Falcon-Med";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -302,8 +419,10 @@
 		};
 		CAAF35FC21DDB3530069C4E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F6CD12C52BDB5B0C87D6511 /* Pods-Falcon Med.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YBJ2RY5U57;
 				INFOPLIST_FILE = "Falcon Med/Info.plist";

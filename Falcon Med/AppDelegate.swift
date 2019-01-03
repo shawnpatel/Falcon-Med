@@ -1,22 +1,74 @@
 //
 //  AppDelegate.swift
-//  Falcon Med
+//  Dr. Drone
 //
-//  Created by Shawn Patel on 1/2/19.
-//  Copyright © 2019 Shawn Patel. All rights reserved.
+//  Created by Shawn Patel on 11/18/18.
+//  Copyright © 2018 Shawn Patel. All rights reserved.
 //
 
 import UIKit
+import Firebase
+import GoogleSignIn
+
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
-
+    var deviceOrientation = UIInterfaceOrientationMask.portrait
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return deviceOrientation
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        implementTheme()
+        
+        FirebaseApp.configure()
+        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
+        
         return true
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+        -> Bool {
+            return GIDSignIn.sharedInstance().handle(url,
+                                                     sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                                                     annotation: [:])
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        if let error = error {
+            print(error)
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        
+        Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            // User is signed in
+            let rootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarController") as UIViewController
+            rootVC.view.frame = UIScreen.main.bounds
+            UIView.transition(with: self.window!, duration: 0.75, options: .transitionCrossDissolve, animations: {
+                self.window?.rootViewController = rootVC
+            }, completion: nil)
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -40,7 +92,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    func implementTheme() {
+        UIBarButtonItem.appearance().tintColor = UIColor.lightGray
+        
+        UITabBar.appearance().tintColor = UIColor.black
+        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
+    }
 }
-
