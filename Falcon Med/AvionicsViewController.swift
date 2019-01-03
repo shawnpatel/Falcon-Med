@@ -57,6 +57,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     // Global Variables
     var takeoffTime: Int!
+    var timestamp: Int!
     
     var latitude: CLLocationDegrees!
     var longitude: CLLocationDegrees!
@@ -231,17 +232,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/longitude").setValue(longitude)
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/altitude").setValue(altitude)
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/heading").setValue(heading)
-        
-        // Should we save telemetric data historically?
-        /*self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/speed").setValue(speed)
-        
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/pitch").setValue(pitch)
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/roll").setValue(roll)
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/yaw").setValue(yaw)
-        
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/accelX").setValue(accelZ)
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/accelY").setValue(accelY)
-        self.ref.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/telemetry/accelZ").setValue(accelZ)*/
     }
     
     // MARK: Camera Live View
@@ -298,28 +288,43 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             }
             
             // Faces Detected
-            for face in faces {
-                if face.hasLeftEyeOpenProbability {
-                    leftEyeOpenProbability = face.leftEyeOpenProbability
-                }
-                
-                if face.hasRightEyeOpenProbability {
-                    rightEyeOpenProbability = face.rightEyeOpenProbability
-                }
+            print("Face Detected")
+            let face = faces.first!
+            
+            if face.hasLeftEyeOpenProbability {
+                leftEyeOpenProbability = face.leftEyeOpenProbability
             }
-        }
-        
-        if leftEyeOpenProbability != 0 || rightEyeOpenProbability != 0 {
-            self.saveFaceDetectedLocationData(leftEyeOpenProbability: leftEyeOpenProbability, rightEyeOpenProbability: rightEyeOpenProbability, image: image)
+            
+            if face.hasRightEyeOpenProbability {
+                rightEyeOpenProbability = face.rightEyeOpenProbability
+            }
+            
+            self.timestamp = Int(NSDate().timeIntervalSince1970)
+            
+            // Upload Image
+            self.uploadFaceImage(image)
+            
+            // Save Location Data
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/latitude").setValue(self.latitude)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/longitude").setValue(self.longitude)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/altitude").setValue(self.altitude)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/heading").setValue(self.heading)
+            
+            // Save Eye Data
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
+            
+            // Run Vision Algorithms
+            self.detectSceneIn(image: image)
+            self.detectGenderIn(image: image)
+            self.detectAgeIn(image: image)
         }
     }
     
     // Save Image and Relevant Data Once Face is Detected
-    func saveFaceDetectedLocationData(leftEyeOpenProbability: CGFloat, rightEyeOpenProbability: CGFloat, image: UIImage) {
-        let timestamp = Int(NSDate().timeIntervalSince1970)
-        
+    func uploadFaceImage(_ image: UIImage) {
         let imageData = image.pngData()
-        let imageRef = storageRef.child("\(uid!)/\(takeoffTime!)/\(timestamp).png")
+        let imageRef = storageRef.child("\(uid!)/\(takeoffTime!)/\(timestamp!).png")
 
         imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
             guard let metadata = metadata else {
@@ -336,31 +341,26 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     return
                 }
                 
-                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(timestamp)/image").setValue(downloadURL.absoluteString)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/image").setValue(downloadURL.absoluteString)
             }
         }
-        
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/latitude").setValue(latitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/longitude").setValue(longitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/altitude").setValue(altitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/heading").setValue(heading)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/faces/\(timestamp)/location/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
     }
     
-    // TODO: Scene + Gender + Age Classification
-    /*func coreMLAnalyze(image: UIImage, model: MLModel) -> String {
-        guard let model = try? VNCoreMLModel(for: model) else {
+    func detectSceneIn(image: UIImage) {
+        guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
             fatalError("Can't load MobileNet model.")
         }
         
-        let request = VNCoreMLRequest(model: model) { [weak self] request, error in
+        let request = VNCoreMLRequest(model: model) { request, error in
             guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
                 fatalError("Unexpected result type from VNCoreMLRequest.")
             }
             
-            let items = topResult.identifier.components(separatedBy: ", ")
-            //return items[0].capitalized
+            let scenes = topResult.identifier.components(separatedBy: ", ")
+            let scene = scenes[0].replacingOccurrences(of: "_", with: " ").capitalized
+            
+            // Save Data
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
         }
         
         let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
@@ -371,7 +371,61 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 print(error)
             }
         }
-    }*/
+    }
+    
+    func detectGenderIn(image: UIImage) {
+        guard let model = try? VNCoreMLModel(for: GenderNet().model) else {
+            fatalError("Can't load MobileNet model.")
+        }
+        
+        let request = VNCoreMLRequest(model: model) { request, error in
+            guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
+                fatalError("Unexpected result type from VNCoreMLRequest.")
+            }
+            
+            let genders = topResult.identifier.components(separatedBy: ", ")
+            let gender = genders[0].capitalized
+            
+            // Save Data
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
+        }
+        
+        let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                try handler.perform([request])
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func detectAgeIn(image: UIImage) {
+        guard let model = try? VNCoreMLModel(for: AgeNet().model) else {
+            fatalError("Can't load MobileNet model.")
+        }
+        
+        let request = VNCoreMLRequest(model: model) { request, error in
+            guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
+                fatalError("Unexpected result type from VNCoreMLRequest.")
+            }
+            
+            let ages = topResult.identifier.components(separatedBy: ", ")
+            let age = ages[0].capitalized
+            
+            // Save Data
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
+        }
+        
+        let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                try handler.perform([request])
+            } catch {
+                print(error)
+            }
+        }
+    }
     
     // MARK: Garbage Collection
     
@@ -391,7 +445,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         navigationController?.popToRootViewController(animated: true)
     }
     
-    @IBAction func done(_ sender: UIBarButtonItem) {
+    @IBAction func flightLanded(_ sender: UIBarButtonItem) {
         terminate()
         
         // TODO: Navigate to Flight Summary View
