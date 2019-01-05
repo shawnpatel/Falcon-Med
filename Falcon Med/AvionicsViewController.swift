@@ -29,6 +29,16 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var sceneLabel: UILabel!
     
+    @IBOutlet weak var accelXLabel: UILabel!
+    @IBOutlet weak var accelYLabel: UILabel!
+    @IBOutlet weak var accelZLabel: UILabel!
+    
+    @IBOutlet weak var xAccelPosHeight: NSLayoutConstraint!
+    @IBOutlet weak var xAccelNegHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var yAccelPosHeight: NSLayoutConstraint!
+    @IBOutlet weak var yAccelNegHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var zAccelPosHeight: NSLayoutConstraint!
     @IBOutlet weak var zAccelNegHeight: NSLayoutConstraint!
     
@@ -62,16 +72,25 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var takeoffTime: Int!
     var timestamp: Int!
     
-    var latitude: CLLocationDegrees!
-    var longitude: CLLocationDegrees!
-    var altitude: CLLocationDistance!
-    var speed: CLLocationSpeed!
+    var latitude: Double!
+    var longitude: Double!
+    var altitude: Double!
+    var speed: Double!
     
-    var heading: CLLocationDirection!
+    var heading: Double!
     
     var accelX: Double!
     var accelY: Double!
     var accelZ: Double!
+    
+    var detectedPersonLatitude: [CLLocationDegrees]!
+    var detectedPersonLongitude: [CLLocationDegrees]!
+    var detectedPersonAltitude: [Double]!
+    var detectedPersonLeftEyeOpen: [Double]!
+    var detectedPersonRightEyeOpen: [Double]!
+    var detectedPersonGender: [String]!
+    var detectedPersonAge: [String]!
+    var detectedPersonScene: [String]!
     
     // MARK: View Did Initiate Functions
     
@@ -137,9 +156,11 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         map.mapType = .standard
         map.showsUserLocation = true
         map.setUserTrackingMode(.followWithHeading, animated: true)
-        map.isUserInteractionEnabled = false
+        map.isUserInteractionEnabled = true
         map.isZoomEnabled = false
         map.isScrollEnabled = false
+        map.isPitchEnabled = false
+        map.isRotateEnabled = false
         
         // Initialize Firebase References and UID
         databaseRef = Database.database().reference()
@@ -155,20 +176,20 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let currentLocation = locations.last
         
-        latitude = currentLocation?.coordinate.latitude ?? 0
-        longitude = currentLocation?.coordinate.longitude ?? 0
-        altitude = currentLocation?.altitude ?? -1 * 3.28084    // m -> ft
-        speed = currentLocation?.speed ?? 0 * 2.23694  // m/s -> mph
+        let localLatitude = currentLocation?.coordinate.latitude ?? 0
+        let localLongitude = currentLocation?.coordinate.longitude ?? 0
+        let localAltitude = currentLocation?.altitude ?? -1 * 3.28084    // m -> ft
+        let localSpeed = currentLocation?.speed ?? 0 * 2.23694    // m/s -> mph
         
-        let roundedLatitude = Float(round(1000 * latitude) / 1000)
-        let roundedLongitude = Float(round(1000 * longitude) / 1000)
-        let roundedAltitude = Float(round(100 * altitude) / 100)
-        let roundedSpeed = Float(round(100 * speed) / 100)
+        latitude = Double(localLatitude).roundTo(places: 3)
+        longitude = Double(localLongitude).roundTo(places: 3)
+        altitude = Double(localAltitude).roundTo(places: 2)
+        speed = Double(localSpeed).roundTo(places: 2)
         
         // Update UI
-        coordinatesLabel.text = "\(roundedLatitude), \(roundedLongitude)"
-        altitudeLabel.text = "\(roundedAltitude) FT"
-        speedLabel.text = "\(roundedSpeed) MPH"
+        coordinatesLabel.text = "\(latitude!), \(longitude!)"
+        altitudeLabel.text = "\(altitude!) FT"
+        speedLabel.text = "\(speed!) MPH"
         
         // Save Location Data to Firebase
         self.databaseRef.child("flights/\(uid!)/live/location/latitude").setValue(latitude)
@@ -178,7 +199,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        heading = newHeading.trueHeading
+        let localHeading = newHeading.trueHeading
+        
+        heading = Double(localHeading).rounded()
         
         self.databaseRef.child("flights/\(uid!)/live/location/heading").setValue(heading)
     }
@@ -189,24 +212,59 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         if let data = motionManager.deviceMotion {
             let acceleration = data.userAcceleration
             
-            accelX = acceleration.y     // Since device is landscape, x-axis is portrait y-xais.
-            accelY = acceleration.x     // Since device is landscape, y-axis is portrait x-axis.
-            accelZ = acceleration.z
+            // Units: [Gs]
+            accelX = Double(acceleration.y).roundTo(places: 2)    // Since device is landscape, x-axis is portrait y-xais.
+            accelY = Double(acceleration.x).roundTo(places: 2)    // Since device is landscape, y-axis is portrait x-axis.
+            accelZ = Double(acceleration.z).roundTo(places: 2)
             
             // Update UI
-            if accelZ > 0 {
-                let multiplier = CGFloat(accelZ / 5)
+            accelXLabel.text = "\(accelX!) Gs"
+            accelYLabel.text = "\(accelY!) Gs"
+            accelZLabel.text = "\(accelZ!) Gs"
+            
+            if accelX > 0 {
+                let multiplier = CGFloat(accelX / 1)
                 
-                zAccelNegHeight = zAccelNegHeight.setMultiplier(0.001)
-                zAccelPosHeight = zAccelPosHeight.setMultiplier(multiplier)
-            } else if accelZ < 0 {
-                let multiplier = CGFloat(-accelZ / 5)
+                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(0.001)
+                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(multiplier)
+            } else if accelX < 0 {
+                let multiplier = CGFloat(-accelX / 1)
                 
-                zAccelPosHeight = zAccelPosHeight.setMultiplier(0.001)
-                zAccelNegHeight = zAccelNegHeight.setMultiplier(multiplier)
+                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(0.001)
+                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(multiplier)
             } else {
-                zAccelPosHeight = zAccelPosHeight.setMultiplier(0)
-                zAccelNegHeight = zAccelNegHeight.setMultiplier(0)
+                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(0.001)
+                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(0.001)
+            }
+            
+            if accelY > 0 {
+                let multiplier = CGFloat(accelY / 1)
+                
+                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(0.001)
+                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(multiplier)
+            } else if accelY < 0 {
+                let multiplier = CGFloat(-accelY / 1)
+                
+                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(0.001)
+                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(multiplier)
+            } else {
+                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(0.001)
+                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(0.001)
+            }
+            
+            if accelZ > 0 {
+                let multiplier = CGFloat(accelZ / 1)
+                
+                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(0.001)
+                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(multiplier)
+            } else if accelZ < 0 {
+                let multiplier = CGFloat(-accelZ / 1)
+                
+                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(0.001)
+                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(multiplier)
+            } else {
+                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(0.001)
+                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(0.001)
             }
             
             // Save Motion Data to Firebase
@@ -267,8 +325,8 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     func detectFaceIn(image: UIImage) {
         // Function Global Variables
-        var leftEyeOpenProbability: CGFloat = 0
-        var rightEyeOpenProbability: CGFloat = 0
+        var leftEyeOpenProbability: Double = 0
+        var rightEyeOpenProbability: Double = 0
         
         let visionImage = VisionImage(image: image)
         
@@ -288,11 +346,11 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             let face = faces.first!
             
             if face.hasLeftEyeOpenProbability {
-                leftEyeOpenProbability = face.leftEyeOpenProbability
+                leftEyeOpenProbability = Double(face.leftEyeOpenProbability).roundTo(places: 2)
             }
             
             if face.hasRightEyeOpenProbability {
-                rightEyeOpenProbability = face.rightEyeOpenProbability
+                rightEyeOpenProbability = Double(face.rightEyeOpenProbability).roundTo(places: 2)
             }
             
             self.timestamp = Int(NSDate().timeIntervalSince1970)
@@ -302,14 +360,14 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             // Add Pin to Map
             let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
+            annotation.title = "Person 1"
             self.map.addAnnotation(annotation)
             
             // Save Location Data
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/latitude").setValue(self.latitude)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/longitude").setValue(self.longitude)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/altitude").setValue(self.altitude)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/heading").setValue(self.heading)
             
             // Save Eye Data
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
@@ -320,6 +378,33 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             self.detectGenderIn(image: image)
             self.detectAgeIn(image: image)
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else {return nil}
+        
+        let identifier = "MyPin"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+            
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+            label.text = "Test \nTest Test Test Test Test Test Test Test Test"
+            label.numberOfLines = 0
+            annotationView?.detailCalloutAccessoryView = label
+            
+            let width = NSLayoutConstraint(item: label, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 200)
+            label.addConstraint(width)
+            
+            let height = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
+            label.addConstraint(height)
+        } else {
+            annotationView!.annotation = annotation
+        }
+        
+        return annotationView
     }
     
     // Save Image and Relevant Data Once Face is Detected
@@ -504,7 +589,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
 }
 
 extension NSLayoutConstraint {
-    func setMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
+    func cloneMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
         NSLayoutConstraint.deactivate([self])
         
         let newConstraint = NSLayoutConstraint(
@@ -523,5 +608,12 @@ extension NSLayoutConstraint {
         NSLayoutConstraint.activate([newConstraint])
         
         return newConstraint
+    }
+}
+
+extension Double {
+    func roundTo(places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }
