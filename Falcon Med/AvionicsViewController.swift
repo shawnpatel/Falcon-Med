@@ -13,6 +13,7 @@ import CoreLocation
 import CoreMotion
 import MapKit
 import AVFoundation
+import LMGaugeView
 
 import Firebase
 
@@ -26,7 +27,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     @IBOutlet weak var coordinatesLabel: UILabel!
     @IBOutlet weak var altitudeLabel: UILabel!
-    @IBOutlet weak var speedLabel: UILabel!
+    @IBOutlet weak var speedGauge: LMGaugeView!
     
     @IBOutlet weak var accelXLabel: UILabel!
     @IBOutlet weak var accelYLabel: UILabel!
@@ -173,6 +174,12 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         map.isPitchEnabled = false
         map.isRotateEnabled = false
         
+        // Setup Speed Gauge Properties
+        speedGauge.minValue = 0
+        speedGauge.maxValue = 10
+        speedGauge.valueFont = UIFont.systemFont(ofSize: 33, weight: .semibold)
+        speedGauge.unitOfMeasurementFont = UIFont.systemFont(ofSize: 9, weight: .regular)
+        
         // Initialize Firebase References and UID
         databaseRef = Database.database().reference()
         storageRef = Storage.storage().reference()
@@ -200,7 +207,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         // Update UI
         coordinatesLabel.text = "\(latitude!), \(longitude!)"
         altitudeLabel.text = "\(altitude!) FT"
-        speedLabel.text = "\(speed!) MPH"
+        speedGauge.value = CGFloat(speed)
         
         // Save Location Data to Firebase
         self.databaseRef.child("flights/\(uid!)/live/location/latitude").setValue(latitude)

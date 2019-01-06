@@ -13,5 +13,6 @@ target 'Falcon Med' do
   pod 'Firebase/Storage'
   pod 'Firebase/MLVision'
   pod 'Firebase/MLVisionFaceModel'
+  pod 'LMGaugeView'
 
 end
