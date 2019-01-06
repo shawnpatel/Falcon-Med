@@ -27,7 +27,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var coordinatesLabel: UILabel!
     @IBOutlet weak var altitudeLabel: UILabel!
     @IBOutlet weak var speedLabel: UILabel!
-    @IBOutlet weak var sceneLabel: UILabel!
     
     @IBOutlet weak var accelXLabel: UILabel!
     @IBOutlet weak var accelYLabel: UILabel!
@@ -477,9 +476,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 self.detectedPersonScene.append(scene)
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
             } else if toUpdate == "updateUI" {
-                DispatchQueue.main.async {
-                    self.sceneLabel.text = scene
-                }
+                self.databaseRef.child("flights/\(self.uid!)/live/location/scene").setValue(scene)
             }
         }
         
