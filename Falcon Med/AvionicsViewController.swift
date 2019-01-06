@@ -83,11 +83,12 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var accelY: Double!
     var accelZ: Double!
     
-    var detectedPersonLatitude: [CLLocationDegrees]!
-    var detectedPersonLongitude: [CLLocationDegrees]!
+    var numberOfDetectedPeople: Int!
+    var detectedPersonLatitude: [Double]!
+    var detectedPersonLongitude: [Double]!
     var detectedPersonAltitude: [Double]!
-    var detectedPersonLeftEyeOpen: [Double]!
-    var detectedPersonRightEyeOpen: [Double]!
+    var detectedPersonLeftEyeOpen: [Int]!
+    var detectedPersonRightEyeOpen: [Int]!
     var detectedPersonGender: [String]!
     var detectedPersonAge: [String]!
     var detectedPersonScene: [String]!
@@ -124,6 +125,17 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Initialize Variables
+        numberOfDetectedPeople = 0
+        detectedPersonLatitude = []
+        detectedPersonLongitude = []
+        detectedPersonAltitude = []
+        detectedPersonLeftEyeOpen = []
+        detectedPersonRightEyeOpen = []
+        detectedPersonGender = []
+        detectedPersonAge = []
+        detectedPersonScene = []
+        
         // Rotate Screen to Landscape Right
         appDelegate.deviceOrientation = .landscapeRight
         let value = UIInterfaceOrientation.landscapeRight.rawValue
@@ -158,7 +170,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         map.setUserTrackingMode(.followWithHeading, animated: true)
         map.isUserInteractionEnabled = true
         map.isZoomEnabled = false
-        map.isScrollEnabled = false
+        map.isScrollEnabled = true
         map.isPitchEnabled = false
         map.isRotateEnabled = false
         
@@ -325,8 +337,8 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     func detectFaceIn(image: UIImage) {
         // Function Global Variables
-        var leftEyeOpenProbability: Double = 0
-        var rightEyeOpenProbability: Double = 0
+        var leftEyeOpenProbability: Int = 0
+        var rightEyeOpenProbability: Int = 0
         
         let visionImage = VisionImage(image: image)
         
@@ -346,11 +358,11 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             let face = faces.first!
             
             if face.hasLeftEyeOpenProbability {
-                leftEyeOpenProbability = Double(face.leftEyeOpenProbability).roundTo(places: 2)
+                leftEyeOpenProbability = Int(Double(face.leftEyeOpenProbability).roundTo(places: 2) * 100)
             }
             
             if face.hasRightEyeOpenProbability {
-                rightEyeOpenProbability = Double(face.rightEyeOpenProbability).roundTo(places: 2)
+                rightEyeOpenProbability = Int(Double(face.rightEyeOpenProbability).roundTo(places: 2) * 100)
             }
             
             self.timestamp = Int(NSDate().timeIntervalSince1970)
@@ -358,18 +370,19 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             // Upload Image
             self.uploadFaceImage(image)
             
-            // Add Pin to Map
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
-            annotation.title = "Person 1"
-            self.map.addAnnotation(annotation)
-            
             // Save Location Data
+            self.detectedPersonLatitude.append(self.latitude)
+            self.detectedPersonLongitude.append(self.longitude)
+            self.detectedPersonAltitude.append(self.altitude)
+            
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/latitude").setValue(self.latitude)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/longitude").setValue(self.longitude)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/altitude").setValue(self.altitude)
             
             // Save Eye Data
+            self.detectedPersonLeftEyeOpen.append(leftEyeOpenProbability)
+            self.detectedPersonRightEyeOpen.append(rightEyeOpenProbability)
+            
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
             
@@ -390,8 +403,22 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView!.canShowCallout = true
             
+            let index = Int(String((annotation.title!?.suffix(1))!))! - 1
+            
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
-            label.text = "Test \nTest Test Test Test Test Test Test Test Test"
+            label.font = UIFont.systemFont(ofSize: 10)
+            
+            label.text = """
+            Coord: \(detectedPersonLatitude[index]), \(detectedPersonLongitude[index])\n
+            Altitude: \(detectedPersonAltitude[index]) FT\n
+            Left Eye Open: \(detectedPersonLeftEyeOpen[index])%\n
+            Right Eye Open: \(detectedPersonRightEyeOpen[index])%\n
+            Gender: \(detectedPersonGender[index])\n
+            Age: \(detectedPersonAge[index])\n
+            Scene: \(detectedPersonScene[index])
+            """
+            
+            label.setLineHeight(0.5)
             label.numberOfLines = 0
             annotationView?.detailCalloutAccessoryView = label
             
@@ -447,6 +474,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             // Save Data or Update UI
             if toUpdate == "face" {
+                self.detectedPersonScene.append(scene)
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
             } else if toUpdate == "updateUI" {
                 DispatchQueue.main.async {
@@ -479,6 +507,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             let gender = genders[0].capitalized
             
             // Save Data
+            self.detectedPersonGender.append(gender)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
         }
         
@@ -506,7 +535,16 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             let age = ages[0].capitalized
             
             // Save Data
+            self.detectedPersonAge.append(age)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
+            
+            // Add Pin to Map
+            self.numberOfDetectedPeople += 1
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
+            annotation.title = "Person \(self.numberOfDetectedPeople!)"
+            self.map.addAnnotation(annotation)
         }
         
         let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
@@ -615,5 +653,24 @@ extension Double {
     func roundTo(places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
+    }
+}
+
+extension UILabel {
+    func setLineHeight(_ lineHeight: CGFloat) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 1.0
+        paragraphStyle.lineHeightMultiple = lineHeight
+        paragraphStyle.alignment = self.textAlignment
+        
+        let attrString = NSMutableAttributedString()
+        if (self.attributedText != nil) {
+            attrString.append( self.attributedText!)
+        } else {
+            attrString.append( NSMutableAttributedString(string: self.text!))
+            attrString.addAttribute(NSAttributedString.Key.font, value: self.font, range: NSMakeRange(0, attrString.length))
+        }
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        self.attributedText = attrString
     }
 }
