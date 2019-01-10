@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */; };
 		CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */; };
 		CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */; };
 		CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */; };
@@ -26,6 +27,7 @@
 		151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Falcon_Med.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F6CD12C52BDB5B0C87D6511 /* Pods-Falcon Med.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.release.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.release.xcconfig"; sourceTree = "<group>"; };
 		8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.debug.xcconfig"; sourceTree = "<group>"; };
+		CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
 		CAAF35E621DDB3510069C4E2 /* Falcon Med.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Falcon Med.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AgeNet.mlmodel; sourceTree = "<group>"; };
 		CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */,
 				CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */,
 				CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */,
+				CAEC578421E3CAD400CFA194 /* Utilities */,
 				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
 				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
 				CAAF360121DDB3B30069C4E2 /* Assets.xcassets */,
@@ -106,6 +109,14 @@
 				CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */,
 			);
 			name = "ML Models";
+			sourceTree = "<group>";
+		};
+		CAEC578421E3CAD400CFA194 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		E9048A85C9EC68181EB5D6CE /* Pods */ = {
@@ -271,6 +282,7 @@
 			files = (
 				CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */,
 				CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */,
+				CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */,
 				CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */,
 				CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */,
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,

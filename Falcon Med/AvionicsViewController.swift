@@ -29,18 +29,11 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var altitudeLabel: UILabel!
     @IBOutlet weak var speedGauge: LMGaugeView!
     
-    @IBOutlet weak var accelXLabel: UILabel!
-    @IBOutlet weak var accelYLabel: UILabel!
-    @IBOutlet weak var accelZLabel: UILabel!
+    @IBOutlet weak var accelerationGraph: UIImageView!
+    @IBOutlet weak var accelerationPoint: UIImageView!
     
-    @IBOutlet weak var xAccelPosHeight: NSLayoutConstraint!
-    @IBOutlet weak var xAccelNegHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var yAccelPosHeight: NSLayoutConstraint!
-    @IBOutlet weak var yAccelNegHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var zAccelPosHeight: NSLayoutConstraint!
-    @IBOutlet weak var zAccelNegHeight: NSLayoutConstraint!
+    @IBOutlet weak var accelerationPointWidth: NSLayoutConstraint!
+    @IBOutlet weak var accelerationPointHeight: NSLayoutConstraint!
     
     // Timers
     var telemetryTimer: Timer!
@@ -210,10 +203,10 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         speedGauge.value = CGFloat(speed)
         
         // Save Location Data to Firebase
-        self.databaseRef.child("flights/\(uid!)/live/location/latitude").setValue(latitude)
-        self.databaseRef.child("flights/\(uid!)/live/location/longitude").setValue(longitude)
-        self.databaseRef.child("flights/\(uid!)/live/location/altitude").setValue(altitude)
-        self.databaseRef.child("flights/\(uid!)/live/telemetry/speed").setValue(speed)
+        self.databaseRef.child("flights/\(uid!)/live/latitude").setValue(latitude)
+        self.databaseRef.child("flights/\(uid!)/live/longitude").setValue(longitude)
+        self.databaseRef.child("flights/\(uid!)/live/altitude").setValue(altitude)
+        self.databaseRef.child("flights/\(uid!)/live/speed").setValue(speed)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
@@ -221,7 +214,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         heading = Double(localHeading).rounded()
         
-        self.databaseRef.child("flights/\(uid!)/live/location/heading").setValue(heading)
+        self.databaseRef.child("flights/\(uid!)/live/heading").setValue(heading)
     }
     
     // MARK: Get Motion Data
@@ -236,72 +229,57 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             accelZ = Double(acceleration.z).roundTo(places: 2)
             
             // Update UI
-            accelXLabel.text = "\(accelX!) Gs"
-            accelYLabel.text = "\(accelY!) Gs"
-            accelZLabel.text = "\(accelZ!) Gs"
+            let maxAccel = Double(1)
+            
+            let graphCenterX = Double(accelerationGraph.center.x)
+            let graphCenterY = Double(accelerationGraph.center.y)
+            
+            let graphWidth = Double(accelerationGraph.frame.width / 2)
+            let graphHeight = Double(accelerationGraph.frame.height / 2)
+            
+            let pointCenterX = Double(accelerationPoint.center.x)
+            let pointCenterY = Double(accelerationPoint.center.y)
+            
+            let accelerationPointDiameter = Double(accelerationPointWidth.constant)
             
             if accelX > 0 {
-                let multiplier = CGFloat(accelX / 1)
-                
-                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(0.001)
-                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(multiplier)
+                let deltaX = graphCenterX + (graphWidth * (accelX / maxAccel))
+                accelerationPoint.center = CGPoint(x: deltaX, y: pointCenterY)
             } else if accelX < 0 {
-                let multiplier = CGFloat(-accelX / 1)
-                
-                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(0.001)
-                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(multiplier)
+                let deltaX = graphCenterX - (graphWidth * (-accelX / maxAccel))
+                accelerationPoint.center = CGPoint(x: deltaX, y: pointCenterY)
             } else {
-                xAccelPosHeight = xAccelPosHeight.cloneMultiplier(0.001)
-                xAccelNegHeight = xAccelNegHeight.cloneMultiplier(0.001)
+                accelerationPoint.center = CGPoint(x: graphCenterX, y: pointCenterY)
             }
             
             if accelY > 0 {
-                let multiplier = CGFloat(accelY / 1)
-                
-                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(0.001)
-                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(multiplier)
+                let deltaY = graphCenterY + (graphHeight * (accelY / maxAccel))
+                accelerationPoint.center = CGPoint(x: pointCenterX, y: deltaY)
             } else if accelY < 0 {
-                let multiplier = CGFloat(-accelY / 1)
-                
-                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(0.001)
-                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(multiplier)
+                let deltaY = graphCenterY - (graphHeight * (-accelY / maxAccel))
+                accelerationPoint.center = CGPoint(x: pointCenterX, y: deltaY)
             } else {
-                yAccelPosHeight = yAccelPosHeight.cloneMultiplier(0.001)
-                yAccelNegHeight = yAccelNegHeight.cloneMultiplier(0.001)
+                accelerationPoint.center = CGPoint(x: pointCenterY, y: graphCenterY)
             }
             
             if accelZ > 0 {
-                let multiplier = CGFloat(accelZ / 1)
-                
-                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(0.001)
-                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(multiplier)
+                let diameter = CGFloat(accelerationPointDiameter + (accelerationPointDiameter * (accelZ / maxAccel)))
+                accelerationPointWidth.constant = diameter
+                accelerationPointHeight.constant = diameter
             } else if accelZ < 0 {
-                let multiplier = CGFloat(-accelZ / 1)
-                
-                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(0.001)
-                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(multiplier)
+                let diameter = CGFloat(accelerationPointDiameter - (accelerationPointDiameter * (-accelZ / maxAccel)))
+                accelerationPointWidth.constant = diameter
+                accelerationPointHeight.constant = diameter
             } else {
-                zAccelPosHeight = zAccelPosHeight.cloneMultiplier(0.001)
-                zAccelNegHeight = zAccelNegHeight.cloneMultiplier(0.001)
+                accelerationPointWidth.constant = 25
+                accelerationPointHeight.constant = 25
             }
             
             // Save Motion Data to Firebase
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/accelX").setValue(accelX)
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/accelY").setValue(accelY)
-            self.databaseRef.child("flights/\(uid!)/live/telemetry/accelZ").setValue(accelZ)
+            self.databaseRef.child("flights/\(uid!)/live/accelX").setValue(accelX)
+            self.databaseRef.child("flights/\(uid!)/live/accelY").setValue(accelY)
+            self.databaseRef.child("flights/\(uid!)/live/accelZ").setValue(accelZ)
         }
-    }
-    
-    // MARK: Save Historical Flight Data
-    
-    @objc func saveHistoricalFlightData() {
-        // Save location and telemetry data every 10 seconds.
-        let timestamp = Int(NSDate().timeIntervalSince1970)
-        
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/latitude").setValue(latitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/longitude").setValue(longitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/altitude").setValue(altitude)
-        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/location/heading").setValue(heading)
     }
     
     // MARK: Camera Live View
@@ -355,7 +333,12 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             guard error == nil, let faces = faces, !faces.isEmpty else {
                 print(error?.localizedDescription ?? "No Face Detected")
                 
-                self.detectSceneIn(image: image, toUpdate: "updateUI")
+                let sceneAnalysis = ImageAnalysis(model: GoogLeNetPlaces().model, image: image)
+                sceneAnalysis.detect(completion: { (error, scene) in
+                    if error != nil {
+                        self.databaseRef.child("flights/\(self.uid!)/live/scene").setValue(scene)
+                    }
+                })
                 return
             }
             
@@ -376,26 +359,23 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             // Upload Image
             self.uploadFaceImage(image)
             
-            // Save Location Data
+            // Save Data
             self.detectedPersonLatitude.append(self.latitude)
             self.detectedPersonLongitude.append(self.longitude)
             self.detectedPersonAltitude.append(self.altitude)
             
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/latitude").setValue(self.latitude)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/longitude").setValue(self.longitude)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/location/altitude").setValue(self.altitude)
-            
-            // Save Eye Data
             self.detectedPersonLeftEyeOpen.append(leftEyeOpenProbability)
             self.detectedPersonRightEyeOpen.append(rightEyeOpenProbability)
+            
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/latitude").setValue(self.latitude)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/longitude").setValue(self.longitude)
+            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/altitude").setValue(self.altitude)
             
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
             
             // Run Vision Algorithms
-            self.detectSceneIn(image: image, toUpdate: "face")
-            self.detectGenderIn(image: image)
-            self.detectAgeIn(image: image)
+            self.runImageAnalysis(image: image)
         }
     }
     
@@ -440,7 +420,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         return annotationView
     }
     
-    // Save Image and Relevant Data Once Face is Detected
+    // Upload Image Once Face is Detected
     func uploadFaceImage(_ image: UIImage) {
         let imageData = image.pngData()
         let imageRef = storageRef.child("\(uid!)/\(takeoffTime!)/\(timestamp!).png")
@@ -465,100 +445,53 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    func detectSceneIn(image: UIImage, toUpdate: String) {
-        guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
-            fatalError("Can't load MobileNet model.")
-        }
-        
-        let request = VNCoreMLRequest(model: model) { request, error in
-            guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
-                fatalError("Unexpected result type from VNCoreMLRequest.")
-            }
-            
-            let scenes = topResult.identifier.components(separatedBy: ", ")
-            let scene = scenes[0].replacingOccurrences(of: "_", with: " ").capitalized
-            
-            // Save Data or Update UI
-            if toUpdate == "face" {
-                self.detectedPersonScene.append(scene)
+    func runImageAnalysis(image: UIImage) {
+        let sceneAnalysis = ImageAnalysis(model: GoogLeNetPlaces().model, image: image)
+        sceneAnalysis.detect(completion: { (error, scene) in
+            if error != nil {
+                // Save Data
+                self.detectedPersonScene.append(scene!)
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
-            } else if toUpdate == "updateUI" {
-                self.databaseRef.child("flights/\(self.uid!)/live/location/scene").setValue(scene)
             }
-        }
+        })
         
-        let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print(error)
+        let genderAnalysis = ImageAnalysis(model: GenderNet().model, image: image)
+        genderAnalysis.detect(completion: { (error, gender) in
+            if error != nil {
+                // Save Data
+                self.detectedPersonGender.append(gender!)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
             }
-        }
+        })
+        
+        let ageAnalysis = ImageAnalysis(model: AgeNet().model, image: image)
+        ageAnalysis.detect(completion: { (error, age) in
+            if error != nil {
+                // Save Data
+                self.detectedPersonAge.append(age!)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
+                
+                // Add Pin to Map
+                self.numberOfDetectedPeople += 1
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
+                annotation.title = "Person \(self.numberOfDetectedPeople!)"
+                self.map.addAnnotation(annotation)
+            }
+        })
     }
     
-    func detectGenderIn(image: UIImage) {
-        guard let model = try? VNCoreMLModel(for: GenderNet().model) else {
-            fatalError("Can't load MobileNet model.")
-        }
-        
-        let request = VNCoreMLRequest(model: model) { request, error in
-            guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
-                fatalError("Unexpected result type from VNCoreMLRequest.")
-            }
-            
-            let genders = topResult.identifier.components(separatedBy: ", ")
-            let gender = genders[0].capitalized
-            
-            // Save Data
-            self.detectedPersonGender.append(gender)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
-        }
-        
-        let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print(error)
-            }
-        }
-    }
+    // MARK: Save Historical Flight Data
     
-    func detectAgeIn(image: UIImage) {
-        guard let model = try? VNCoreMLModel(for: AgeNet().model) else {
-            fatalError("Can't load MobileNet model.")
-        }
+    @objc func saveHistoricalFlightData() {
+        // Save location and telemetry data every 10 seconds.
+        let timestamp = Int(NSDate().timeIntervalSince1970)
         
-        let request = VNCoreMLRequest(model: model) { request, error in
-            guard let results = request.results as? [VNClassificationObservation], let topResult = results.first else {
-                fatalError("Unexpected result type from VNCoreMLRequest.")
-            }
-            
-            let ages = topResult.identifier.components(separatedBy: ", ")
-            let age = ages[0].capitalized
-            
-            // Save Data
-            self.detectedPersonAge.append(age)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
-            
-            // Add Pin to Map
-            self.numberOfDetectedPeople += 1
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
-            annotation.title = "Person \(self.numberOfDetectedPeople!)"
-            self.map.addAnnotation(annotation)
-        }
-        
-        let handler = VNImageRequestHandler(ciImage: CIImage(image: image)!)
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print(error)
-            }
-        }
+        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/latitude").setValue(latitude)
+        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/longitude").setValue(longitude)
+        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/altitude").setValue(altitude)
+        self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/heading").setValue(heading)
     }
     
     // MARK: Garbage Collection
@@ -630,6 +563,8 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
 }
 
+// MARK: Extension Functions
+
 extension NSLayoutConstraint {
     func cloneMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
         NSLayoutConstraint.deactivate([self])
@@ -668,13 +603,13 @@ extension UILabel {
         paragraphStyle.alignment = self.textAlignment
         
         let attrString = NSMutableAttributedString()
-        if (self.attributedText != nil) {
+        if self.attributedText != nil {
             attrString.append( self.attributedText!)
         } else {
-            attrString.append( NSMutableAttributedString(string: self.text!))
+            attrString.append(NSMutableAttributedString(string: self.text!))
             attrString.addAttribute(NSAttributedString.Key.font, value: self.font, range: NSMakeRange(0, attrString.length))
         }
-        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
         self.attributedText = attrString
     }
 }

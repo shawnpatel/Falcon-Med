@@ -1,6 +1,5 @@
 AvionicsViewController
 - Configure UI for accel data.
-- Clean/comment code.
 
 FlightSummaryViewController <Create>
 - Display map with face and historical MKPointAnnotations.
