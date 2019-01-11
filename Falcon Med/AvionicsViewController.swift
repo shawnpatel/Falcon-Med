@@ -76,15 +76,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var accelY: Double!
     var accelZ: Double!
     
-    var numberOfDetectedPeople: Int!
-    var detectedPersonLatitude: [Double]!
-    var detectedPersonLongitude: [Double]!
-    var detectedPersonAltitude: [Double]!
-    var detectedPersonLeftEyeOpen: [Int]!
-    var detectedPersonRightEyeOpen: [Int]!
-    var detectedPersonGender: [String]!
-    var detectedPersonAge: [String]!
-    var detectedPersonScene: [String]!
+    var detectedPeople: [DetectedPerson]!
     
     // MARK: View Did Initiate Functions
     
@@ -119,15 +111,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         super.viewDidLoad()
         
         // Initialize Variables
-        numberOfDetectedPeople = 0
-        detectedPersonLatitude = []
-        detectedPersonLongitude = []
-        detectedPersonAltitude = []
-        detectedPersonLeftEyeOpen = []
-        detectedPersonRightEyeOpen = []
-        detectedPersonGender = []
-        detectedPersonAge = []
-        detectedPersonScene = []
+        detectedPeople = []
         
         // Rotate Screen to Landscape Right
         appDelegate.deviceOrientation = .landscapeRight
@@ -360,12 +344,8 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             self.uploadFaceImage(image)
             
             // Save Data
-            self.detectedPersonLatitude.append(self.latitude)
-            self.detectedPersonLongitude.append(self.longitude)
-            self.detectedPersonAltitude.append(self.altitude)
-            
-            self.detectedPersonLeftEyeOpen.append(leftEyeOpenProbability)
-            self.detectedPersonRightEyeOpen.append(rightEyeOpenProbability)
+            let detectedPerson = DetectedPerson(self.latitude, self.longitude, self.altitude, leftEyeOpenProbability, rightEyeOpenProbability)
+            self.detectedPeople.append(detectedPerson)
             
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/latitude").setValue(self.latitude)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/longitude").setValue(self.longitude)
@@ -395,13 +375,13 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             label.font = UIFont.systemFont(ofSize: 10)
             
             label.text = """
-            Coord: \(detectedPersonLatitude[index]), \(detectedPersonLongitude[index])\n
-            Altitude: \(detectedPersonAltitude[index]) FT\n
-            Left Eye Open: \(detectedPersonLeftEyeOpen[index])%\n
-            Right Eye Open: \(detectedPersonRightEyeOpen[index])%\n
-            Gender: \(detectedPersonGender[index])\n
-            Age: \(detectedPersonAge[index])\n
-            Scene: \(detectedPersonScene[index])
+            Coord: \(detectedPeople[index].latitude), \(detectedPeople[index].longitude)\n
+            Altitude: \(detectedPeople[index].altitude) FT\n
+            Left Eye Open: \(detectedPeople[index].leftEyeOpenProbability)%\n
+            Right Eye Open: \(detectedPeople[index].rightEyeOpenProbability)%\n
+            Gender: \(detectedPeople[index].gender)\n
+            Age: \(detectedPeople[index].age)\n
+            Scene: \(detectedPeople[index].scene)
             """
             
             label.setLineHeight(0.5)
@@ -450,7 +430,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         sceneAnalysis.detect(completion: { (error, scene) in
             if error != nil {
                 // Save Data
-                self.detectedPersonScene.append(scene!)
+                self.detectedPeople.last?.scene = scene!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
             }
         })
@@ -459,7 +439,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         genderAnalysis.detect(completion: { (error, gender) in
             if error != nil {
                 // Save Data
-                self.detectedPersonGender.append(gender!)
+                self.detectedPeople.last?.gender = gender!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
             }
         })
@@ -468,15 +448,13 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         ageAnalysis.detect(completion: { (error, age) in
             if error != nil {
                 // Save Data
-                self.detectedPersonAge.append(age!)
+                self.detectedPeople.last?.age = age!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
                 
                 // Add Pin to Map
-                self.numberOfDetectedPeople += 1
-                
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
-                annotation.title = "Person \(self.numberOfDetectedPeople!)"
+                annotation.title = "Person \(self.detectedPeople.count)"
                 self.map.addAnnotation(annotation)
             }
         })

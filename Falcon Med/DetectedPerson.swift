@@ -23,9 +23,14 @@ class DetectedPerson {
     
     // Initialize Class
     
-    init(latitude: Double, longitude: Double) {
+    init(_ latitude: Double, _ longitude: Double, _ altitude: Double, _ leftEyeOpenProbability: Int, _ rightEyeOpenProbability: Int) {
         self._latitude = latitude
         self._longitude = longitude
+        self._altitude = altitude
+        
+        self._leftEyeOpenProbability = leftEyeOpenProbability
+        self._rightEyeOpenProbability = rightEyeOpenProbability
+        
     }
     
     // Getters and Setters
