@@ -498,7 +498,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     @objc func willResignActive(_ notification: Notification) {
         terminate()
-        
         terminateHistorical()
         
         navigationController?.popToRootViewController(animated: true)
@@ -506,7 +505,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         terminate()
-        
         terminateHistorical()
         
         navigationController?.popToRootViewController(animated: true)
