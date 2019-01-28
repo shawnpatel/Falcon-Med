@@ -263,7 +263,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="Landing" id="nr9-6T-pUC">
                             <connections>
                                 <action selector="flightLanded:" destination="KYu-ka-UoI" id="cYu-pe-hCw"/>
-                                <segue destination="4Bq-6j-saE" kind="popoverPresentation" popoverAnchorBarButtonItem="nr9-6T-pUC" id="t39-hr-azr">
+                                <segue destination="iWw-Sd-2bw" kind="popoverPresentation" popoverAnchorBarButtonItem="nr9-6T-pUC" id="Vl5-lP-Cjy">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -285,20 +285,41 @@
             </objects>
             <point key="canvasLocation" x="3479.347826086957" y="23.188405797101453"/>
         </scene>
-        <!--View Controller-->
+        <!--Flight Summary-->
         <scene sceneID="gOS-Xl-QgB">
             <objects>
-                <viewController id="4Bq-6j-saE" sceneMemberID="viewController">
+                <viewController id="4Bq-6j-saE" customClass="FlightSummaryViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f53-Ku-bho">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="12t-zV-Geo">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="12t-zV-Geo" firstAttribute="leading" secondItem="htP-Vc-q8K" secondAttribute="leading" id="DkS-g1-Q03"/>
+                            <constraint firstItem="12t-zV-Geo" firstAttribute="top" secondItem="htP-Vc-q8K" secondAttribute="top" id="Igl-Mf-AaA"/>
+                            <constraint firstItem="htP-Vc-q8K" firstAttribute="trailing" secondItem="12t-zV-Geo" secondAttribute="trailing" id="d2f-Qw-QdX"/>
+                            <constraint firstItem="htP-Vc-q8K" firstAttribute="bottom" secondItem="12t-zV-Geo" secondAttribute="bottom" id="m2w-X1-0Vr"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="htP-Vc-q8K"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Flight Summary" id="tCB-6W-lY3">
+                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="thf-e2-Nxu">
+                            <connections>
+                                <segue destination="R63-ra-qlL" kind="show" id="Fwf-VM-9nr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="map" destination="12t-zV-Geo" id="3FC-oi-hRs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkH-Z0-xPb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4316" y="24"/>
+            <point key="canvasLocation" x="5165" y="24"/>
         </scene>
         <!--Flight-->
         <scene sceneID="RaE-6n-JHq">
@@ -474,6 +495,25 @@
             </objects>
             <point key="canvasLocation" x="1723" y="740"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Dwt-1c-7VK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iWw-Sd-2bw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="J6r-xC-c4Z">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4Bq-6j-saE" kind="relationship" relationship="rootViewController" id="J99-5H-FZS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zb5-YG-O9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4315.9420289855079" y="23.64130434782609"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Flight" width="72" height="72"/>
@@ -488,4 +528,7 @@
         <image name="Takeoff" width="72" height="72"/>
         <image name="Track" width="72" height="72"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Fwf-VM-9nr"/>
+    </inferredMetricsTieBreakers>
 </document>

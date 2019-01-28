@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */; };
 		CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */; };
+		CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */; };
+		CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */; };
 		CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */; };
 		CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */; };
 		CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */; };
@@ -30,6 +32,8 @@
 		8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.debug.xcconfig"; sourceTree = "<group>"; };
 		CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedPerson.swift; sourceTree = "<group>"; };
 		CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
+		CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryViewController.swift; sourceTree = "<group>"; };
+		CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
 		CAAF35E621DDB3510069C4E2 /* Falcon Med.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Falcon Med.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AgeNet.mlmodel; sourceTree = "<group>"; };
 		CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 				CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */,
 				CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */,
 				CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */,
+				CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */,
 				CAEC578421E3CAD400CFA194 /* Utilities */,
 				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
 				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
@@ -118,6 +123,7 @@
 			children = (
 				CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */,
 				CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */,
+				CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -229,7 +235,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -241,7 +246,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -290,6 +294,8 @@
 				CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */,
 				CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */,
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
+				CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */,
+				CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */,
 				CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */,
 				CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */,
 			);

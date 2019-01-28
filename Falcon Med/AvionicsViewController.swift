@@ -509,6 +509,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         cameraTimer.invalidate()
         historicalFlightDataTimer.invalidate()
         
+        // Rotate Screen to Portrait
         appDelegate.deviceOrientation = .portrait
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")

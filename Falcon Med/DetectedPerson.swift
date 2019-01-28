@@ -7,9 +7,8 @@
 //
 
 class DetectedPerson {
-    
+
     // Declare Variables
-    
     private var _latitude: Double!
     private var _longitude: Double!
     private var _altitude: Double!
@@ -22,7 +21,6 @@ class DetectedPerson {
     private var _scene: String!
     
     // Initialize Class
-    
     init(_ latitude: Double, _ longitude: Double, _ altitude: Double, _ leftEyeOpenProbability: Int, _ rightEyeOpenProbability: Int) {
         self._latitude = latitude
         self._longitude = longitude
@@ -34,7 +32,6 @@ class DetectedPerson {
     }
     
     // Getters and Setters
-    
     public var latitude: Double {
         get { return _latitude }
         set { _latitude = newValue }
