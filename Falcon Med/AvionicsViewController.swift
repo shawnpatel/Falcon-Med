@@ -346,6 +346,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             // Save Data
             let detectedPerson = DetectedPerson(self.latitude, self.longitude, self.altitude, leftEyeOpenProbability, rightEyeOpenProbability)
+            detectedPerson.image = image
             self.detectedPeople.append(detectedPerson)
             
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/latitude").setValue(self.latitude)

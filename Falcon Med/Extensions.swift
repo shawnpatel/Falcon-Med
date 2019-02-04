@@ -9,7 +9,7 @@
 import UIKit
 
 extension Int {
-    func getDateFromSecondsSince1970() -> String {
+    func getTimeFromSecondsSince1970() -> String {
         let date = Date(timeIntervalSince1970: Double(self))
         
         let dateFormatter = DateFormatter()

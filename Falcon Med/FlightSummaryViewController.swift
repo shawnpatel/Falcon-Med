@@ -68,4 +68,11 @@ class FlightSummaryViewController: UIViewController, MKMapViewDelegate {
             historicalIndex += 1
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? FlightSummaryDetailsTableViewController {
+            destination.detectedPeople = detectedPeople
+            destination.historicalData = historicalData
+        }
+    }
 }
