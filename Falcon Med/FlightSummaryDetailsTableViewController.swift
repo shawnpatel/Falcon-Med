@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetectedPersonCell: UITableViewCell {
+class FlightSummaryDetectedPersonCell: UITableViewCell {
     @IBOutlet weak var person: UILabel!
     
     @IBOutlet weak var coordinates: UILabel!
@@ -24,7 +24,7 @@ class DetectedPersonCell: UITableViewCell {
     @IBOutlet weak var personImageView: UIImageView!
 }
 
-class HistoricalDataCell: UITableViewCell {
+class FlightSummaryHistoricalDataCell: UITableViewCell {
     @IBOutlet weak var timestamp: UILabel!
     
     @IBOutlet weak var coordinates: UILabel!
@@ -89,7 +89,7 @@ class FlightSummaryDetailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Section 1 - Detected People
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DetectedPersonCell", for: indexPath) as! DetectedPersonCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetectedPersonCell", for: indexPath) as! FlightSummaryDetectedPersonCell
             
             let person = detectedPeople[indexPath.row]
             
@@ -111,7 +111,7 @@ class FlightSummaryDetailsTableViewController: UITableViewController {
         }
         
         // Section 2 - Historical Data
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoricalDataCell", for: indexPath) as! HistoricalDataCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoricalDataCell", for: indexPath) as! FlightSummaryHistoricalDataCell
         
         let data = historicalData[indexPath.row]
         

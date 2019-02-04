@@ -9,15 +9,9 @@
 import UIKit
 import MapKit
 
-import Firebase
-
 class FlightSummaryViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var map: MKMapView!
-    
-    // Firebase
-    var databaseRef: DatabaseReference!
-    var uid: String!
     
     // Global Variables
     var detectedPeople: [DetectedPerson]!
@@ -31,10 +25,6 @@ class FlightSummaryViewController: UIViewController, MKMapViewDelegate {
         map.mapType = .hybrid
         map.showsUserLocation = true
         map.setUserTrackingMode(.follow, animated: true)
-        
-        // Initialize Firebase References and UID
-        databaseRef = Database.database().reference()
-        uid = Auth.auth().currentUser?.uid
         
         if detectedPeople == nil {
             detectedPeople = []

@@ -8,83 +8,119 @@
 
 import UIKit
 
+class HistoryDetectedPersonCell: UITableViewCell {
+    @IBOutlet weak var person: UILabel!
+    
+    @IBOutlet weak var coordinates: UILabel!
+    @IBOutlet weak var altitude: UILabel!
+    
+    @IBOutlet weak var leftEyeOpen: UILabel!
+    @IBOutlet weak var rightEyeOpen: UILabel!
+    
+    @IBOutlet weak var gender: UILabel!
+    @IBOutlet weak var age: UILabel!
+    @IBOutlet weak var scene: UILabel!
+    
+    @IBOutlet weak var personImageView: UIImageView!
+}
+
+class HistoryHistoricalDataCell: UITableViewCell {
+    @IBOutlet weak var timestamp: UILabel!
+    
+    @IBOutlet weak var coordinates: UILabel!
+    @IBOutlet weak var altitude: UILabel!
+    @IBOutlet weak var heading: UILabel!
+}
+
 class HistoryDetailsTableViewController: UITableViewController {
 
+    // Global Variables
+    var detectedPeople: [DetectedPerson]!
+    var historicalData: [HistoricalData]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        if detectedPeople == nil {
+            detectedPeople = []
+        }
+        
+        if historicalData == nil {
+            historicalData = []
+        }
     }
-
+    
     // MARK: - Table view data source
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 300
+        } else if indexPath.section == 1 {
+            return 65
+        }
+        
+        return 0
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 2
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        if section == 0 {
+            return detectedPeople.count
+        } else if section == 1 {
+            return historicalData.count
+        }
+        
         return 0
     }
-
-    /*
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Detected People"
+        } else if section == 1 {
+            return "Historical Data"
+        }
+        
+        return ""
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        // Section 1 - Detected People
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetectedPersonCell", for: indexPath) as! HistoryDetectedPersonCell
+            
+            let person = detectedPeople[indexPath.row]
+            
+            cell.person.text = "Person \(indexPath.row + 1)"
+            
+            cell.coordinates.text = "\(person.latitude), \(person.longitude)"
+            cell.altitude.text = "\(person.altitude) FT"
+            
+            cell.leftEyeOpen.text = "\(person.leftEyeOpenProbability)%"
+            cell.rightEyeOpen.text = "\(person.rightEyeOpenProbability)%"
+            
+            cell.gender.text = person.gender
+            cell.age.text = person.age
+            cell.scene.text = person.scene
+            
+            cell.personImageView.image = person.image
+            
+            return cell
+        }
+        
+        // Section 2 - Historical Data
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoricalDataCell", for: indexPath) as! HistoryHistoricalDataCell
+        
+        let data = historicalData[indexPath.row]
+        
+        cell.timestamp.text = data.timestamp.getTimeFromSecondsSince1970()
+        
+        cell.coordinates.text = "\(data.latitude), \(data.longitude)"
+        cell.altitude.text = "\(data.altitude) FT"
+        cell.heading.text = "\(data.heading)°"
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
