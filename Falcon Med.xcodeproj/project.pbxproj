@@ -14,7 +14,7 @@
 		CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA272207A88000FC7A7A /* Extensions.swift */; };
 		CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */; };
 		CA95EA2F2207F58B00FC7A7A /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA2E2207F58B00FC7A7A /* HistoryTableViewController.swift */; };
-		CA95EA322207F5B700FC7A7A /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA312207F5B700FC7A7A /* DetailsTableViewController.swift */; };
+		CA95EA322207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA312207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift */; };
 		CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */; };
 		CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */; };
 		CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */; };
@@ -27,6 +27,8 @@
 		CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */; };
 		CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */; };
 		CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360921DDB3B70069C4E2 /* TODO.txt */; };
+		CAD7BBA62207FC8F00ED845C /* HistoryDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */; };
+		CAD7BBA82207FCB000ED845C /* FlightMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */; };
 		F2F1B89F4715A0BAAFD80CDC /* Pods_Falcon_Med.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +43,7 @@
 		CA95EA272207A88000FC7A7A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
 		CA95EA2E2207F58B00FC7A7A /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
-		CA95EA312207F5B700FC7A7A /* DetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewController.swift; sourceTree = "<group>"; };
+		CA95EA312207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CAAF35E621DDB3510069C4E2 /* Falcon Med.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Falcon Med.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AgeNet.mlmodel; sourceTree = "<group>"; };
 		CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,8 @@
 		CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CAAF360821DDB3B70069C4E2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAF360921DDB3B70069C4E2 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailsTableViewController.swift; sourceTree = "<group>"; };
+		CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 			children = (
 				CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */,
 				CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */,
+				CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */,
+				CA95EA312207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift */,
 			);
 			name = Flight;
 			sourceTree = "<group>";
@@ -95,19 +101,12 @@
 			name = Track;
 			sourceTree = "<group>";
 		};
-		CA95EA2D2207F56F00FC7A7A /* Flight Summary */ = {
-			isa = PBXGroup;
-			children = (
-				CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */,
-				CA95EA312207F5B700FC7A7A /* DetailsTableViewController.swift */,
-			);
-			name = "Flight Summary";
-			sourceTree = "<group>";
-		};
 		CA95EA302207F59700FC7A7A /* History */ = {
 			isa = PBXGroup;
 			children = (
 				CA95EA2E2207F58B00FC7A7A /* HistoryTableViewController.swift */,
+				CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */,
+				CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -147,7 +146,6 @@
 				CA95EA292207F52F00FC7A7A /* Flight */,
 				CA95EA2C2207F56400FC7A7A /* Track */,
 				CA95EA302207F59700FC7A7A /* History */,
-				CA95EA2D2207F56F00FC7A7A /* Flight Summary */,
 				CAEC578421E3CAD400CFA194 /* Utilities */,
 				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
 				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
@@ -340,7 +338,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */,
-				CA95EA322207F5B700FC7A7A /* DetailsTableViewController.swift in Sources */,
+				CAD7BBA82207FCB000ED845C /* FlightMapViewController.swift in Sources */,
+				CAD7BBA62207FC8F00ED845C /* HistoryDetailsTableViewController.swift in Sources */,
+				CA95EA322207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift in Sources */,
 				CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */,
 				CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */,
 				CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */,

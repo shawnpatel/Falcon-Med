@@ -1,5 +1,5 @@
 //
-//  DetailsTableViewController.swift
+//  FlightSummaryDetailsTableViewController.swift
 //  Falcon Med
 //
 //  Created by Shawn Patel on 2/3/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsTableViewController: UITableViewController {
+class FlightSummaryDetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

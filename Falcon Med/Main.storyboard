@@ -276,9 +276,7 @@
                         <outlet property="coordinatesLabel" destination="D7p-rl-7ac" id="hLJ-pO-ZGP"/>
                         <outlet property="map" destination="xrz-Uu-30m" id="vnc-9Y-T0y"/>
                         <outlet property="speedGauge" destination="2fh-Es-3By" id="C23-xb-F2f"/>
-                        <segue destination="4Bq-6j-saE" kind="popoverPresentation" identifier="avionicsToFlightSummary" popoverAnchorBarButtonItem="nr9-6T-pUC" id="CV6-Hw-K2w">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
+                        <segue destination="4Bq-6j-saE" kind="show" identifier="avionicsToFlightSummary" id="CV6-Hw-K2w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n5q-fo-ao7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -290,52 +288,36 @@
             <objects>
                 <viewController id="4Bq-6j-saE" customClass="FlightSummaryViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f53-Ku-bho">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Td-Om-UWU">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAK-D9-5pI">
-                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                                <color key="barTintColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <items>
-                                    <navigationItem title="Flight Summary" id="VUV-s5-C8Q">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="gFi-CF-1MZ">
-                                            <connections>
-                                                <segue destination="R63-ra-qlL" kind="popoverPresentation" popoverAnchorBarButtonItem="gFi-CF-1MZ" id="3bo-BL-GiA">
-                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                </segue>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" image="Details" id="ce1-iZ-aBM">
-                                            <connections>
-                                                <segue destination="MR1-LQ-l2k" kind="show" id="J5d-zf-Q1r"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="12t-zV-Geo">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="12t-zV-Geo" firstAttribute="top" secondItem="htP-Vc-q8K" secondAttribute="top" id="6Nh-PW-Cgz"/>
                             <constraint firstItem="12t-zV-Geo" firstAttribute="leading" secondItem="htP-Vc-q8K" secondAttribute="leading" id="DkS-g1-Q03"/>
-                            <constraint firstItem="12t-zV-Geo" firstAttribute="top" secondItem="iAK-D9-5pI" secondAttribute="bottom" id="Igl-Mf-AaA"/>
-                            <constraint firstItem="iAK-D9-5pI" firstAttribute="leading" secondItem="12t-zV-Geo" secondAttribute="leading" id="JIo-xW-LLH"/>
                             <constraint firstItem="htP-Vc-q8K" firstAttribute="trailing" secondItem="12t-zV-Geo" secondAttribute="trailing" id="d2f-Qw-QdX"/>
-                            <constraint firstItem="iAK-D9-5pI" firstAttribute="top" secondItem="htP-Vc-q8K" secondAttribute="top" id="jmy-q5-ORE"/>
                             <constraint firstItem="htP-Vc-q8K" firstAttribute="bottom" secondItem="12t-zV-Geo" secondAttribute="bottom" id="m2w-X1-0Vr"/>
-                            <constraint firstItem="iAK-D9-5pI" firstAttribute="trailing" secondItem="12t-zV-Geo" secondAttribute="trailing" id="xQw-cz-Lrp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="htP-Vc-q8K"/>
                     </view>
                     <navigationItem key="navigationItem" title="Flight Summary" id="tCB-6W-lY3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="thf-e2-Nxu"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="CiB-w2-Hk8"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="gFi-CF-1MZ">
+                            <connections>
+                                <segue destination="R63-ra-qlL" kind="popoverPresentation" popoverAnchorBarButtonItem="gFi-CF-1MZ" id="3bo-BL-GiA">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="Details" id="ce1-iZ-aBM">
+                            <connections>
+                                <segue destination="bEQ-bH-Jzs" kind="show" id="6D6-Kx-6Pe"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="map" destination="12t-zV-Geo" id="3FC-oi-hRs"/>
@@ -343,14 +325,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkH-Z0-xPb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4309" y="739"/>
+            <point key="canvasLocation" x="4323" y="24"/>
         </scene>
         <!--Details-->
         <scene sceneID="8yi-E4-o5Y">
             <objects>
-                <tableViewController id="bEQ-bH-Jzs" customClass="DetailsTableViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="bEQ-bH-Jzs" customClass="FlightSummaryDetailsTableViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="k2G-y4-XnE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -368,19 +350,11 @@
                             <outlet property="delegate" destination="bEQ-bH-Jzs" id="C0o-YB-rHn"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Details" id="j0y-7i-YU2">
-                        <barButtonItem key="leftBarButtonItem" title="&lt; Back" id="6VD-hb-bRD">
-                            <connections>
-                                <segue destination="4Bq-6j-saE" kind="popoverPresentation" popoverAnchorBarButtonItem="6VD-hb-bRD" id="98j-0U-s2f">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Details" id="j0y-7i-YU2"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ZG-1U-ovw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5951" y="739"/>
+            <point key="canvasLocation" x="5158" y="24"/>
         </scene>
         <!--Flight-->
         <scene sceneID="RaE-6n-JHq">
@@ -539,14 +513,78 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="pZe-V0-LB6"/>
                     <connections>
-                        <segue destination="4Bq-6j-saE" kind="popoverPresentation" identifier="historyToFlightSummary" popoverAnchorView="pzp-rf-d1b" id="RoT-KM-fvs">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
+                        <segue destination="H6s-7X-jNI" kind="show" id="hJd-Tv-MSZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="brk-7C-c6P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2616" y="1465"/>
+        </scene>
+        <!--Flight Map-->
+        <scene sceneID="KqE-gT-ZEI">
+            <objects>
+                <viewController id="H6s-7X-jNI" customClass="FlightMapViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bsV-7a-7fn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6ol-mF-XVS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6ol-mF-XVS" firstAttribute="top" secondItem="LD6-po-ege" secondAttribute="top" id="0Zd-5D-J2s"/>
+                            <constraint firstItem="6ol-mF-XVS" firstAttribute="leading" secondItem="LD6-po-ege" secondAttribute="leading" id="A5B-Cp-01F"/>
+                            <constraint firstItem="LD6-po-ege" firstAttribute="bottom" secondItem="6ol-mF-XVS" secondAttribute="bottom" id="ge2-p7-ke2"/>
+                            <constraint firstItem="LD6-po-ege" firstAttribute="trailing" secondItem="6ol-mF-XVS" secondAttribute="trailing" id="htY-1g-UMm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="LD6-po-ege"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Flight Map" id="II5-5F-hw0">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="qjb-i2-FvU"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="Details" id="bZ8-vH-SL0">
+                            <connections>
+                                <segue destination="Q6S-5C-DtT" kind="show" id="9tM-mj-MyL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="map" destination="6ol-mF-XVS" id="cTa-Oy-AIJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="woy-26-kcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3478" y="1465"/>
+        </scene>
+        <!--Details-->
+        <scene sceneID="jDO-Q6-f5f">
+            <objects>
+                <tableViewController id="Q6S-5C-DtT" customClass="HistoryDetailsTableViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1uR-cU-1oc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="OCE-k8-mBe">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OCE-k8-mBe" id="HP5-LM-2tC">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Q6S-5C-DtT" id="iBS-bP-23O"/>
+                            <outlet property="delegate" destination="Q6S-5C-DtT" id="hiX-JL-qB4"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Details" id="w0H-Ic-bAE"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4oW-gi-tjY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4322" y="1465"/>
         </scene>
         <!--FlightViewController-->
         <scene sceneID="FOo-WG-PCv">
@@ -609,25 +647,6 @@
             </objects>
             <point key="canvasLocation" x="1723" y="740"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="NFX-3w-06S">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MR1-LQ-l2k" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="ey2-eQ-ahs">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="bEQ-bH-Jzs" kind="relationship" relationship="rootViewController" id="ogk-S6-Ait"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7JI-F9-qaG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5150.7246376811599" y="738.58695652173924"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Details" width="72" height="72"/>
@@ -645,6 +664,6 @@
         <image name="Track" width="72" height="72"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="98j-0U-s2f"/>
+        <segue reference="3bo-BL-GiA"/>
     </inferredMetricsTieBreakers>
 </document>
