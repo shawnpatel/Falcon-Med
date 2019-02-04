@@ -77,6 +77,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var accelZ: Double!
     
     var detectedPeople: [DetectedPerson]!
+    var historicalData: [HistoricalData]!
     
     // MARK: View Did Initiate Functions
     
@@ -112,6 +113,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         // Initialize Variables
         detectedPeople = []
+        historicalData = []
         
         // Rotate Screen to Landscape Right
         appDelegate.deviceOrientation = .landscapeRight
@@ -145,7 +147,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         map.mapType = .standard
         map.showsUserLocation = true
         map.setUserTrackingMode(.followWithHeading, animated: true)
-        map.isUserInteractionEnabled = true
         map.isZoomEnabled = false
         map.isScrollEnabled = true
         map.isPitchEnabled = false
@@ -213,7 +214,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             accelZ = Double(acceleration.z).roundTo(places: 2)
             
             // Update UI
-            let maxAccel = Double(1)
+            /*let maxAccel = Double(1)
             
             let graphCenterX = Double(accelerationGraph.center.x)
             let graphCenterY = Double(accelerationGraph.center.y)
@@ -257,7 +258,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             } else {
                 accelerationPointWidth.constant = 25
                 accelerationPointHeight.constant = 25
-            }
+            }*/
             
             // Save Motion Data to Firebase
             self.databaseRef.child("flights/\(uid!)/live/accelX").setValue(accelX)
@@ -354,50 +355,15 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
             self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
             
+            // Add Pin to Map
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
+            annotation.title = "Person \(self.detectedPeople.count)"
+            self.map.addAnnotation(annotation)
+            
             // Run Vision Algorithms
             self.runImageAnalysis(image: image)
         }
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MKPointAnnotation else {return nil}
-        
-        let identifier = "MyPin"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-        
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView!.canShowCallout = true
-            
-            let index = Int(String((annotation.title!?.suffix(1))!))! - 1
-            
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
-            label.font = UIFont.systemFont(ofSize: 10)
-            
-            label.text = """
-            Coord: \(detectedPeople[index].latitude), \(detectedPeople[index].longitude)\n
-            Altitude: \(detectedPeople[index].altitude) FT\n
-            Left Eye Open: \(detectedPeople[index].leftEyeOpenProbability)%\n
-            Right Eye Open: \(detectedPeople[index].rightEyeOpenProbability)%\n
-            Gender: \(detectedPeople[index].gender)\n
-            Age: \(detectedPeople[index].age)\n
-            Scene: \(detectedPeople[index].scene)
-            """
-            
-            label.setLineHeight(0.5)
-            label.numberOfLines = 0
-            annotationView?.detailCalloutAccessoryView = label
-            
-            let width = NSLayoutConstraint(item: label, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 200)
-            label.addConstraint(width)
-            
-            let height = NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
-            label.addConstraint(height)
-        } else {
-            annotationView!.annotation = annotation
-        }
-        
-        return annotationView
     }
     
     // Upload Image Once Face is Detected
@@ -406,13 +372,10 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         let imageRef = storageRef.child("\(uid!)/\(takeoffTime!)/\(timestamp!).png")
 
         imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
+            guard metadata != nil else {
                 print(error?.localizedDescription ?? "Image Upload Error")
                 return
             }
-            
-            let size = metadata.size
-            print(size)
             
             imageRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
@@ -428,7 +391,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     func runImageAnalysis(image: UIImage) {
         let sceneAnalysis = ImageAnalysis(model: GoogLeNetPlaces().model, image: image)
         sceneAnalysis.detect(completion: { (error, scene) in
-            if error != nil {
+            if error == nil {
                 // Save Data
                 self.detectedPeople.last?.scene = scene!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
@@ -437,7 +400,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         let genderAnalysis = ImageAnalysis(model: GenderNet().model, image: image)
         genderAnalysis.detect(completion: { (error, gender) in
-            if error != nil {
+            if error == nil {
                 // Save Data
                 self.detectedPeople.last?.gender = gender!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
@@ -446,16 +409,10 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         let ageAnalysis = ImageAnalysis(model: AgeNet().model, image: image)
         ageAnalysis.detect(completion: { (error, age) in
-            if error != nil {
+            if error == nil {
                 // Save Data
                 self.detectedPeople.last?.age = age!
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
-                
-                // Add Pin to Map
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
-                annotation.title = "Person \(self.detectedPeople.count)"
-                self.map.addAnnotation(annotation)
             }
         })
     }
@@ -470,6 +427,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/longitude").setValue(longitude)
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/altitude").setValue(altitude)
         self.databaseRef.child("flights/\(uid!)/historical/\(takeoffTime!)/\(timestamp)/heading").setValue(heading)
+        
+        let historicalData = HistoricalData(timestamp, latitude, longitude, altitude, heading)
+        self.historicalData.append(historicalData)
     }
     
     // MARK: Garbage Collection
@@ -491,8 +451,16 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBAction func flightLanded(_ sender: UIBarButtonItem) {
         terminate()
         
-        // TODO: Navigate to Flight Summary View
-        navigationController?.popToRootViewController(animated: true)
+        self.performSegue(withIdentifier: "avionicsToFlightSummary", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "avionicsToFlightSummary" {
+            if let destination = segue.destination as? FlightSummaryViewController {
+                destination.detectedPeople = detectedPeople
+                destination.historicalData = historicalData
+            }
+        }
     }
     
     func terminate() {
@@ -537,56 +505,5 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             localTakeoffTime += 1
         }
-    }
-}
-
-// MARK: Extension Functions
-
-extension NSLayoutConstraint {
-    func cloneMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
-        NSLayoutConstraint.deactivate([self])
-        
-        let newConstraint = NSLayoutConstraint(
-            item: firstItem!,
-            attribute: firstAttribute,
-            relatedBy: relation,
-            toItem: secondItem,
-            attribute: secondAttribute,
-            multiplier: multiplier,
-            constant: constant)
-        
-        newConstraint.priority = priority
-        newConstraint.shouldBeArchived = self.shouldBeArchived
-        newConstraint.identifier = self.identifier
-        
-        NSLayoutConstraint.activate([newConstraint])
-        
-        return newConstraint
-    }
-}
-
-extension Double {
-    func roundTo(places: Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
-    }
-}
-
-extension UILabel {
-    func setLineHeight(_ lineHeight: CGFloat) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 1.0
-        paragraphStyle.lineHeightMultiple = lineHeight
-        paragraphStyle.alignment = self.textAlignment
-        
-        let attrString = NSMutableAttributedString()
-        if self.attributedText != nil {
-            attrString.append( self.attributedText!)
-        } else {
-            attrString.append(NSMutableAttributedString(string: self.text!))
-            attrString.addAttribute(NSAttributedString.Key.font, value: self.font, range: NSMakeRange(0, attrString.length))
-        }
-        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
-        self.attributedText = attrString
     }
 }

@@ -79,17 +79,17 @@
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="KYu-ka-UoI" customClass="AvionicsViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rNX-qS-k8N">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HtY-tu-1zb">
-                                <rect key="frame" x="5" y="5" width="404" height="662"/>
+                                <rect key="frame" x="5" y="25" width="404" height="706"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xrz-Uu-30m">
-                                        <rect key="frame" x="0.0" y="0.0" width="133.33333333333334" height="662"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="133.33333333333334" height="706"/>
                                     </mapView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="bLR-21-wNC">
-                                        <rect key="frame" x="138.33333333333334" y="0.0" width="127.33333333333334" height="662"/>
+                                        <rect key="frame" x="138.33333333333334" y="0.0" width="127.33333333333334" height="706"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coordinates" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqM-aC-RDn">
                                                 <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="12"/>
@@ -139,14 +139,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WbA-pd-e5O">
-                                                <rect key="frame" x="0.0" y="86" width="127.33333333333333" height="116"/>
+                                                <rect key="frame" x="0.0" y="86" width="127.33333333333333" height="123.66666666666669"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V9U-5S-yD9">
-                                                        <rect key="frame" x="0.0" y="0.0" width="5.666666666666667" height="116"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="2" height="123.66666666666667"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2fh-Es-3By" customClass="LMGaugeView">
-                                                        <rect key="frame" x="5.6666666666666572" y="0.0" width="116" height="116"/>
+                                                        <rect key="frame" x="2" y="0.0" width="123.33333333333333" height="123.66666666666667"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="ringThickness">
@@ -179,7 +179,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x0a-KK-ard">
-                                                        <rect key="frame" x="121.66666666666666" y="0.0" width="5.6666666666666714" height="116"/>
+                                                        <rect key="frame" x="125.33333333333334" y="0.0" width="2" height="123.66666666666667"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                 </subviews>
@@ -190,23 +190,23 @@
                                                 </constraints>
                                             </stackView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="gQ0-7w-2z4">
-                                                <rect key="frame" x="0.0" y="204" width="127.33333333333333" height="3"/>
+                                                <rect key="frame" x="0.0" y="211.66666666666666" width="127.33333333333333" height="3"/>
                                                 <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </progressView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acceleration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSp-7x-DFK">
-                                                <rect key="frame" x="0.0" y="209" width="127.33333333333333" height="12"/>
+                                                <rect key="frame" x="0.0" y="216.66666666666666" width="127.33333333333333" height="12"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3OM-sC-1WF">
-                                                <rect key="frame" x="0.0" y="223" width="127.33333333333333" height="439"/>
+                                                <rect key="frame" x="0.0" y="230.66666666666666" width="127.33333333333333" height="475.33333333333337"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Graph" translatesAutoresizingMaskIntoConstraints="NO" id="Dsq-WR-vYi">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="439"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="127.33333333333333" height="475.33333333333331"/>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Point" translatesAutoresizingMaskIntoConstraints="NO" id="xmb-ch-imV">
-                                                        <rect key="frame" x="51.333333333333314" y="207" width="25" height="25"/>
+                                                        <rect key="frame" x="51.333333333333314" y="225.00000000000003" width="25" height="25"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="25" id="sDm-Ib-JHG"/>
                                                             <constraint firstAttribute="height" constant="25" id="vEe-wD-XtQ"/>
@@ -235,7 +235,7 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ivu-7t-Ybs">
-                                        <rect key="frame" x="270.66666666666669" y="0.0" width="133.33333333333331" height="662"/>
+                                        <rect key="frame" x="270.66666666666669" y="0.0" width="133.33333333333331" height="706"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -263,9 +263,6 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="Landing" id="nr9-6T-pUC">
                             <connections>
                                 <action selector="flightLanded:" destination="KYu-ka-UoI" id="cYu-pe-hCw"/>
-                                <segue destination="iWw-Sd-2bw" kind="popoverPresentation" popoverAnchorBarButtonItem="nr9-6T-pUC" id="Vl5-lP-Cjy">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -279,6 +276,9 @@
                         <outlet property="coordinatesLabel" destination="D7p-rl-7ac" id="hLJ-pO-ZGP"/>
                         <outlet property="map" destination="xrz-Uu-30m" id="vnc-9Y-T0y"/>
                         <outlet property="speedGauge" destination="2fh-Es-3By" id="C23-xb-F2f"/>
+                        <segue destination="4Bq-6j-saE" kind="popoverPresentation" identifier="avionicsToFlightSummary" popoverAnchorBarButtonItem="nr9-6T-pUC" id="CV6-Hw-K2w">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n5q-fo-ao7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -290,28 +290,47 @@
             <objects>
                 <viewController id="4Bq-6j-saE" customClass="FlightSummaryViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f53-Ku-bho">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Td-Om-UWU">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAK-D9-5pI">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <color key="barTintColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <items>
+                                    <navigationItem title="Flight Summary" id="VUV-s5-C8Q">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="gFi-CF-1MZ">
+                                            <connections>
+                                                <segue destination="R63-ra-qlL" kind="popoverPresentation" popoverAnchorBarButtonItem="gFi-CF-1MZ" id="3bo-BL-GiA">
+                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                </segue>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="12t-zV-Geo">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="12t-zV-Geo" firstAttribute="leading" secondItem="htP-Vc-q8K" secondAttribute="leading" id="DkS-g1-Q03"/>
-                            <constraint firstItem="12t-zV-Geo" firstAttribute="top" secondItem="htP-Vc-q8K" secondAttribute="top" id="Igl-Mf-AaA"/>
+                            <constraint firstItem="12t-zV-Geo" firstAttribute="top" secondItem="iAK-D9-5pI" secondAttribute="bottom" id="Igl-Mf-AaA"/>
+                            <constraint firstItem="iAK-D9-5pI" firstAttribute="leading" secondItem="12t-zV-Geo" secondAttribute="leading" id="JIo-xW-LLH"/>
                             <constraint firstItem="htP-Vc-q8K" firstAttribute="trailing" secondItem="12t-zV-Geo" secondAttribute="trailing" id="d2f-Qw-QdX"/>
+                            <constraint firstItem="iAK-D9-5pI" firstAttribute="top" secondItem="htP-Vc-q8K" secondAttribute="top" id="jmy-q5-ORE"/>
                             <constraint firstItem="htP-Vc-q8K" firstAttribute="bottom" secondItem="12t-zV-Geo" secondAttribute="bottom" id="m2w-X1-0Vr"/>
+                            <constraint firstItem="iAK-D9-5pI" firstAttribute="trailing" secondItem="12t-zV-Geo" secondAttribute="trailing" id="xQw-cz-Lrp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="htP-Vc-q8K"/>
                     </view>
                     <navigationItem key="navigationItem" title="Flight Summary" id="tCB-6W-lY3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="thf-e2-Nxu">
-                            <connections>
-                                <segue destination="R63-ra-qlL" kind="show" id="Fwf-VM-9nr"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="thf-e2-Nxu"/>
                     </navigationItem>
                     <connections>
                         <outlet property="map" destination="12t-zV-Geo" id="3FC-oi-hRs"/>
@@ -319,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkH-Z0-xPb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5165" y="24"/>
+            <point key="canvasLocation" x="4359.420289855073" y="22.826086956521742"/>
         </scene>
         <!--Flight-->
         <scene sceneID="RaE-6n-JHq">
@@ -495,25 +514,6 @@
             </objects>
             <point key="canvasLocation" x="1723" y="740"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Dwt-1c-7VK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iWw-Sd-2bw" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="J6r-xC-c4Z">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.92804503439999997" green="0.11066731069999999" blue="0.13898086549999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="4Bq-6j-saE" kind="relationship" relationship="rootViewController" id="J99-5H-FZS"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zb5-YG-O9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4315.9420289855079" y="23.64130434782609"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Flight" width="72" height="72"/>
@@ -529,6 +529,6 @@
         <image name="Track" width="72" height="72"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fwf-VM-9nr"/>
+        <segue reference="00z-PW-coB"/>
     </inferredMetricsTieBreakers>
 </document>

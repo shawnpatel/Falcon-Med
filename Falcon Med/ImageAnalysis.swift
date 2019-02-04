@@ -21,7 +21,7 @@ class ImageAnalysis {
     }
     
     func detect(completion: @escaping (Error?, String?) -> ()) {
-        guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
+        guard let model = try? VNCoreMLModel(for: model) else {
             fatalError("Can't load model.")
         }
         
