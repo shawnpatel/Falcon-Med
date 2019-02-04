@@ -6,6 +6,8 @@
 //  Copyright © 2019 Shawn Patel. All rights reserved.
 //
 
+import UIKit
+
 class DetectedPerson {
 
     // Declare Variables
@@ -19,6 +21,8 @@ class DetectedPerson {
     private var _gender: String!
     private var _age: String!
     private var _scene: String!
+    
+    private var _image: UIImage!
     
     // Initialize Class
     init(_ latitude: Double, _ longitude: Double, _ altitude: Double, _ leftEyeOpenProbability: Int, _ rightEyeOpenProbability: Int) {
@@ -70,5 +74,10 @@ class DetectedPerson {
     public var scene: String {
         get { return _scene }
         set { _scene = newValue }
+    }
+    
+    public var image: UIImage {
+        get { return _image }
+        set { _image = newValue }
     }
 }
