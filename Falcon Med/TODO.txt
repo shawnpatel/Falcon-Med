@@ -1,10 +1,11 @@
 AvionicsViewController
-- Configure UI for accel data.
+- Configure UI for acceleration data.
 
-FlightSummaryViewController <Create>
-- Display map with face and historical MKPointAnnotations.
-- Connect MKPointAnnotations to resemble a flight map.
+FlightSummaryViewController
+- Display multiple map annotations.
 
 TrackViewController <Create>
 
-HistoricalFlightsTableViewController <Create>
+HistoryTableViewController
+- Parse downloaded Firebase data into detectedPeople and historicalData 2D arrays.
+    - Sort based on takeoff times.

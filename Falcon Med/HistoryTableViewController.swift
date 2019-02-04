@@ -8,83 +8,87 @@
 
 import UIKit
 
+import Firebase
+
+class HistoryTableViewCell: UITableViewCell {
+    @IBOutlet weak var date: UILabel!
+}
+
 class HistoryTableViewController: UITableViewController {
+    
+    // Firebase
+    var databaseRef: DatabaseReference!
+    var uid: String!
+    
+    // Global Variables
+    var takeoffTimes: [Int]!
+    
+    var detectedPeople: [[DetectedPerson]]!
+    var historicalData: [[HistoricalData]]!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        takeoffTimes = []
+        
+        detectedPeople = []
+        historicalData = []
+        
+        downloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        databaseRef = Database.database().reference()
+        uid = Auth.auth().currentUser?.uid
+    }
+    
+    func downloadData() {
+        databaseRef.child("flights").child(uid).child("historical").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            
+            for takeoffTime in (value?.allKeys as! [String]) {
+                self.takeoffTimes.append(Int(takeoffTime)!)
+            }
+            
+            self.takeoffTimes.sort()
+            self.takeoffTimes.reverse()
+            
+            self.tableView.reloadData()
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        if takeoffTimes != nil {
+            return takeoffTimes.count
+        }
+        
         return 0
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HistoryTableViewCell
+        
+        cell.date.text = takeoffTimes[indexPath.row].getDateFromSecondsSince1970()
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "historyToFlightMap", sender: indexPath.row)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "historyToFlightMap" {
+            if let destination = segue.destination as? FlightMapViewController {
+                destination.detectedPeople = detectedPeople[sender as! Int]
+                destination.historicalData = historicalData[sender as! Int]
+            }
+        }
     }
-    */
-
 }

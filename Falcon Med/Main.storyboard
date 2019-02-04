@@ -753,18 +753,35 @@
         <scene sceneID="O12-qM-8mK">
             <objects>
                 <tableViewController id="sbh-el-CrP" customClass="HistoryTableViewController" customModule="Falcon_Med" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pzp-rf-d1b">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pzp-rf-d1b">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="yDj-VS-zID">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="yDj-VS-zID" customClass="HistoryTableViewCell" customModule="Falcon_Med" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yDj-VS-zID" id="wWC-Ho-fTp">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="78A-pw-69t">
+                                            <rect key="frame" x="5" y="5" width="404" height="33.666666666666664"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="78A-pw-69t" secondAttribute="trailing" constant="5" id="Tnb-jW-79m"/>
+                                        <constraint firstAttribute="bottom" secondItem="78A-pw-69t" secondAttribute="bottom" constant="5" id="Yln-cj-llH"/>
+                                        <constraint firstItem="78A-pw-69t" firstAttribute="top" secondItem="wWC-Ho-fTp" secondAttribute="top" constant="5" id="cUz-4c-8yH"/>
+                                        <constraint firstItem="78A-pw-69t" firstAttribute="leading" secondItem="wWC-Ho-fTp" secondAttribute="leading" constant="5" id="z8B-eU-mB3"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="date" destination="78A-pw-69t" id="g0l-e6-KTg"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

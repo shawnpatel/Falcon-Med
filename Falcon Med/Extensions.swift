@@ -15,7 +15,18 @@ extension Int {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current
         dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "hh:mm a"
+        dateFormatter.dateFormat = "h:mm a"
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    func getDateFromSecondsSince1970() -> String {
+        let date = Date(timeIntervalSince1970: Double(self))
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "EEEE, MMMM d, yyyy - h:mm a"
         
         return dateFormatter.string(from: date)
     }
