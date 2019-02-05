@@ -118,19 +118,34 @@ class HistoryTableViewController: UITableViewController {
     
     func parseData(index: Int) {
         let flightData = databaseData[index]
+        
+        var timestamps: [Int] = []
+        
         for flight in flightData {
-            let timestamp = flight.key as? String
-            if timestamp != "faces" {
-                let data = flight.value as! NSDictionary
-                    
-                let latitude = data.value(forKey: "latitude") as! Double
-                let longitude = data.value(forKey: "longitude") as! Double
-                let altitude = data.value(forKey: "altitude") as! Double
-                let heading = data.value(forKey: "heading") as! Double
-                    
-                let historicalData = HistoricalData(Int(timestamp!)!, latitude, longitude, altitude, heading)
-                self.historicalData.append(historicalData)
+            if let timestamp = flight.key as? String {
+                if timestamp != "faces" {
+                    timestamps.append(Int(timestamp)!)
+                }
             }
+        }
+        
+        timestamps.sort()
+        
+        var sortedFlightData: [NSDictionary] = []
+        for timestamp in timestamps {
+            sortedFlightData.append(flightData.object(forKey: String(timestamp)) as! NSDictionary)
+        }
+        
+        for flight in sortedFlightData {
+            let timestamp = timestamps[sortedFlightData.firstIndex(of: flight)!]
+            
+            let latitude = flight.value(forKey: "latitude") as! Double
+            let longitude = flight.value(forKey: "longitude") as! Double
+            let altitude = flight.value(forKey: "altitude") as! Double
+            let heading = flight.value(forKey: "heading") as! Double
+                    
+            let historicalData = HistoricalData(timestamp, latitude, longitude, altitude, heading)
+            self.historicalData.append(historicalData)
         }
         
         let faces = flightData["faces"] as? NSDictionary

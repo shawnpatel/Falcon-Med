@@ -5,6 +5,3 @@ FlightSummaryViewController
 - Display multiple map annotations.
 
 TrackViewController <Create>
-
-HistoryTableViewController
-- Sort historical data.
