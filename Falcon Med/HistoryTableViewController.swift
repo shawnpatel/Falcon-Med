@@ -22,9 +22,8 @@ class HistoryTableViewController: UITableViewController {
     var uid: String!
     
     // Global Variables
-    var databaseData: NSDictionary!
-    
     var takeoffTimes: [Int]!
+    var databaseData: [NSDictionary]!
     
     var detectedPeople: [DetectedPerson]!
     var historicalData: [HistoricalData]!
@@ -33,6 +32,7 @@ class HistoryTableViewController: UITableViewController {
         super.viewDidAppear(animated)
         
         takeoffTimes = []
+        databaseData = []
         
         detectedPeople = []
         historicalData = []
@@ -50,10 +50,17 @@ class HistoryTableViewController: UITableViewController {
     
     func downloadData() {
         databaseRef.child("flights").child(uid).child("historical").observeSingleEvent(of: .value, with: { (snapshot) in
-            self.databaseData = snapshot.value as? NSDictionary
+            let databaseData = snapshot.value as? NSDictionary
             
-            for takeoffTime in (self.databaseData?.allKeys as! [String]) {
+            for takeoffTime in (databaseData?.allKeys as! [String]) {
                 self.takeoffTimes.append(Int(takeoffTime)!)
+            }
+            
+            self.takeoffTimes.sort()
+            self.takeoffTimes.reverse()
+            
+            for takeoffTime in self.takeoffTimes {
+                self.databaseData.append(databaseData![String(takeoffTime)] as! NSDictionary)
             }
             
             self.tableView.reloadData()
@@ -96,27 +103,23 @@ class HistoryTableViewController: UITableViewController {
     }
     
     func parseData(index: Int) {
-        let takeoffTime = takeoffTimes[index]
-        
-        let flightData = databaseData[String(takeoffTime)] as? NSDictionary
-        if flightData != nil {
-            for flight in flightData! {
-                let timestamp = flight.key as? String
-                if timestamp != "faces" {
-                    let data = flight.value as! NSDictionary
+        let flightData = databaseData[index]
+        for flight in flightData {
+            let timestamp = flight.key as? String
+            if timestamp != "faces" {
+                let data = flight.value as! NSDictionary
                     
-                    let latitude = data.value(forKey: "latitude") as! Double
-                    let longitude = data.value(forKey: "longitude") as! Double
-                    let altitude = data.value(forKey: "altitude") as! Double
-                    let heading = data.value(forKey: "heading") as! Double
+                let latitude = data.value(forKey: "latitude") as! Double
+                let longitude = data.value(forKey: "longitude") as! Double
+                let altitude = data.value(forKey: "altitude") as! Double
+                let heading = data.value(forKey: "heading") as! Double
                     
-                    let historicalData = HistoricalData(Int(timestamp!)!, latitude, longitude, altitude, heading)
-                    self.historicalData.append(historicalData)
-                }
+                let historicalData = HistoricalData(Int(timestamp!)!, latitude, longitude, altitude, heading)
+                self.historicalData.append(historicalData)
             }
         }
         
-        let faces = flightData?["faces"] as? NSDictionary
+        let faces = flightData["faces"] as? NSDictionary
         if faces != nil {
             for case let face as NSDictionary in (faces?.allValues)! {
                 let latitude = face.value(forKey: "latitude") as! Double
