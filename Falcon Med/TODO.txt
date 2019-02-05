@@ -7,5 +7,4 @@ FlightSummaryViewController
 TrackViewController <Create>
 
 HistoryTableViewController
-- Parse downloaded Firebase data into detectedPeople and historicalData 2D arrays.
-    - Sort based on takeoff times.
+- Sort historical data.

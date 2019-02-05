@@ -39,6 +39,7 @@ class HistoryTableViewController: UITableViewController {
         activityIndicator.center = view.convert(view.center, from: view.superview)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
+        tableView.isUserInteractionEnabled = false
         view.addSubview(activityIndicator)
         
         takeoffTimes = []
@@ -76,6 +77,7 @@ class HistoryTableViewController: UITableViewController {
             self.tableView.reloadData()
             
             self.activityIndicator.stopAnimating()
+            self.tableView.isUserInteractionEnabled = true
         }) { (error) in
             print(error.localizedDescription)
         }
