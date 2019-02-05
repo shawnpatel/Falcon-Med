@@ -16,6 +16,8 @@ class HistoryTableViewCell: UITableViewCell {
 
 class HistoryTableViewController: UITableViewController {
     
+    var activityIndicator: UIActivityIndicatorView!
+    
     // Firebase
     var databaseRef: DatabaseReference!
     var storage: Storage!
@@ -30,6 +32,14 @@ class HistoryTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.backgroundColor = UIColor.lightGray
+        activityIndicator.layer.cornerRadius = 5
+        activityIndicator.center = view.convert(view.center, from: view.superview)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        view.addSubview(activityIndicator)
         
         takeoffTimes = []
         databaseData = []
@@ -64,6 +74,8 @@ class HistoryTableViewController: UITableViewController {
             }
             
             self.tableView.reloadData()
+            
+            self.activityIndicator.stopAnimating()
         }) { (error) in
             print(error.localizedDescription)
         }
