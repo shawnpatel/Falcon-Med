@@ -60,7 +60,7 @@ class FlightMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? FlightSummaryDetailsTableViewController {
+        if let destination = segue.destination as? HistoryDetailsTableViewController {
             destination.detectedPeople = detectedPeople
             destination.historicalData = historicalData
         }

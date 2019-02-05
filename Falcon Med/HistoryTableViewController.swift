@@ -18,13 +18,16 @@ class HistoryTableViewController: UITableViewController {
     
     // Firebase
     var databaseRef: DatabaseReference!
+    var storage: Storage!
     var uid: String!
     
     // Global Variables
+    var databaseData: NSDictionary!
+    
     var takeoffTimes: [Int]!
     
-    var detectedPeople: [[DetectedPerson]]!
-    var historicalData: [[HistoricalData]]!
+    var detectedPeople: [DetectedPerson]!
+    var historicalData: [HistoricalData]!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -41,19 +44,17 @@ class HistoryTableViewController: UITableViewController {
         super.viewDidLoad()
         
         databaseRef = Database.database().reference()
+        storage = Storage.storage()
         uid = Auth.auth().currentUser?.uid
     }
     
     func downloadData() {
         databaseRef.child("flights").child(uid).child("historical").observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
+            self.databaseData = snapshot.value as? NSDictionary
             
-            for takeoffTime in (value?.allKeys as! [String]) {
+            for takeoffTime in (self.databaseData?.allKeys as! [String]) {
                 self.takeoffTimes.append(Int(takeoffTime)!)
             }
-            
-            self.takeoffTimes.sort()
-            self.takeoffTimes.reverse()
             
             self.tableView.reloadData()
         }) { (error) in
@@ -84,10 +85,71 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        parseData(index: sender as! Int)
+        
         if segue.identifier == "historyToFlightMap" {
             if let destination = segue.destination as? FlightMapViewController {
-                destination.detectedPeople = detectedPeople[sender as! Int]
-                destination.historicalData = historicalData[sender as! Int]
+                destination.detectedPeople = detectedPeople
+                destination.historicalData = historicalData
+            }
+        }
+    }
+    
+    func parseData(index: Int) {
+        let takeoffTime = takeoffTimes[index]
+        
+        let flightData = databaseData[String(takeoffTime)] as? NSDictionary
+        if flightData != nil {
+            for flight in flightData! {
+                let timestamp = flight.key as? String
+                if timestamp != "faces" {
+                    let data = flight.value as! NSDictionary
+                    
+                    let latitude = data.value(forKey: "latitude") as! Double
+                    let longitude = data.value(forKey: "longitude") as! Double
+                    let altitude = data.value(forKey: "altitude") as! Double
+                    let heading = data.value(forKey: "heading") as! Double
+                    
+                    let historicalData = HistoricalData(Int(timestamp!)!, latitude, longitude, altitude, heading)
+                    self.historicalData.append(historicalData)
+                }
+            }
+        }
+        
+        let faces = flightData?["faces"] as? NSDictionary
+        if faces != nil {
+            for case let face as NSDictionary in (faces?.allValues)! {
+                let latitude = face.value(forKey: "latitude") as! Double
+                let longitude = face.value(forKey: "longitude") as! Double
+                let altitude = face.value(forKey: "altitude") as! Double
+                
+                let leftEyeOpenProbability = face.value(forKey: "leftEyeOpenProbability") as! Int
+                let rightEyeOpenProbability = face.value(forKey: "rightEyeOpenProbability") as! Int
+                
+                let gender = face.value(forKey: "gender") as! String
+                let age = face.value(forKey: "age") as! String
+                let scene = face.value(forKey: "scene") as! String
+                
+                let imageURL = face.value(forKey: "image") as! String
+                
+                let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
+                detectedPeople.append(detectedPerson)
+                
+                downloadImage(url: imageURL, index: detectedPeople.count - 1)
+            }
+        }
+    }
+    
+    func downloadImage(url: String, index: Int) {
+        let httpsRef = storage.reference(forURL: url)
+        
+        httpsRef.getData(maxSize: Int64.max) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                
+                self.detectedPeople[index].image = image!
             }
         }
     }

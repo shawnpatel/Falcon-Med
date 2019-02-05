@@ -35,6 +35,19 @@ class DetectedPerson {
         
     }
     
+    init(_ latitude: Double, _ longitude: Double, _ altitude: Double, _ leftEyeOpenProbability: Int, _ rightEyeOpenProbability: Int, _ gender: String, _ age: String, _ scene: String) {
+        self._latitude = latitude
+        self._longitude = longitude
+        self._altitude = altitude
+        
+        self._leftEyeOpenProbability = leftEyeOpenProbability
+        self._rightEyeOpenProbability = rightEyeOpenProbability
+        
+        self._gender = gender
+        self._age = age
+        self._scene = scene
+    }
+    
     // Getters and Setters
     public var latitude: Double {
         get { return _latitude }
