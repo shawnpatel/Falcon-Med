@@ -35,6 +35,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var storage: Storage!
     var uid: String!
     
+    // Global Variables
+    var takeoffTime: Int!
+    
+    var detectedPeople: [DetectedPerson]!
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -68,6 +73,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         databaseRef = Database.database().reference()
         storage = Storage.storage()
         uid = Auth.auth().currentUser?.uid
+        
+        // Instantiate Global Variables
+        takeoffTime = UserDefaults.standard.integer(forKey: "takeoffTime")
     }
     
     func checkIfDroneIsLive() {
@@ -105,9 +113,13 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 annotation.title = "Drone"
                 self.map.addAnnotation(annotation)
                 
-                self.refreshData()
+                self.refreshLiveData()
+                self.refreshPersonDetection()
             } else {
                 // Not Live
+                
+                self.liveView.contentMode = .scaleAspectFit
+                self.liveView.image = UIImage(named: "Logo.png")
                 
                 let alertController = UIAlertController(title: "Not Live", message: "Your drone is currently not in flight.", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -118,7 +130,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func refreshData() {
+    func refreshLiveData() {
         databaseRef.child("flights").child(uid).child("live").observe(.childChanged, with: { (snapshot) -> Void in
             let key = snapshot.key
             let value = snapshot.value
@@ -162,7 +174,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 case "accelZ":
                     self.accelZ.text = "\(value as! Double) Gs"
                 case "image":
-                    self.downloadImage(url: value as! String)
+                    self.downloadLiveImage(url: value as! String)
                 default:
                     break
             }
@@ -171,7 +183,38 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func downloadImage(url: String) {
+    func refreshPersonDetection() {
+        databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observe(.childAdded, with: { (snapshot) -> Void in
+            // Person Detected
+            let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            
+            if let face = snapshot.value as? NSDictionary {
+                let latitude = face.value(forKey: "latitude") as! Double
+                let longitude = face.value(forKey: "longitude") as! Double
+                let altitude = face.value(forKey: "altitude") as! Double
+                
+                let leftEyeOpenProbability = face.value(forKey: "leftEyeOpenProbability") as! Int
+                let rightEyeOpenProbability = face.value(forKey: "rightEyeOpenProbability") as! Int
+                
+                let gender = face.value(forKey: "gender") as! String
+                let age = face.value(forKey: "age") as! String
+                let scene = face.value(forKey: "scene") as! String
+                
+                let imageURL = face.value(forKey: "image") as! String
+                
+                let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
+                self.detectedPeople.append(detectedPerson)
+                
+                self.downloadFaceImage(url: imageURL, index: self.detectedPeople.count - 1)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    func downloadLiveImage(url: String) {
         let httpsRef = storage.reference(forURL: url)
         
         httpsRef.getData(maxSize: Int64.max) { data, error in
@@ -180,7 +223,22 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             } else {
                 let image = UIImage(data: data!)
                 
+                self.liveView.contentMode = .scaleAspectFill
                 self.liveView.image = image
+            }
+        }
+    }
+    
+    func downloadFaceImage(url: String, index: Int) {
+        let httpsRef = storage.reference(forURL: url)
+        
+        httpsRef.getData(maxSize: Int64.max) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                
+                self.detectedPeople[index].image = image!
             }
         }
     }
@@ -188,5 +246,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBAction func refresh(_ sender: UIBarButtonItem) {
         activityIndicator.startAnimating()
         checkIfDroneIsLive()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? TrackDetailsTableViewController {
+            destination.detectedPeople = detectedPeople
+        }
     }
 }

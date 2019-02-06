@@ -167,12 +167,12 @@ class HistoryTableViewController: UITableViewController {
                 let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
                 detectedPeople.append(detectedPerson)
                 
-                downloadImage(url: imageURL, index: detectedPeople.count - 1)
+                downloadFaceImage(url: imageURL, index: detectedPeople.count - 1)
             }
         }
     }
     
-    func downloadImage(url: String, index: Int) {
+    func downloadFaceImage(url: String, index: Int) {
         let httpsRef = storage.reference(forURL: url)
         
         httpsRef.getData(maxSize: Int64.max) { data, error in

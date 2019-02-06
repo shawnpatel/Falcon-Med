@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */; };
+		CA1BB5E9220B481F00C5DE2B /* TrackDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */; };
 		CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */; };
 		CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */; };
 		CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */; };
@@ -37,6 +38,7 @@
 		7F6CD12C52BDB5B0C87D6511 /* Pods-Falcon Med.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.release.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.release.xcconfig"; sourceTree = "<group>"; };
 		8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.debug.xcconfig"; sourceTree = "<group>"; };
 		CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedPerson.swift; sourceTree = "<group>"; };
+		CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
 		CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryViewController.swift; sourceTree = "<group>"; };
 		CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */,
+				CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */,
 			);
 			name = Track;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				CA95EA322207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift in Sources */,
 				CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */,
 				CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */,
+				CA1BB5E9220B481F00C5DE2B /* TrackDetailsTableViewController.swift in Sources */,
 				CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */,
 				CA95EA2F2207F58B00FC7A7A /* HistoryTableViewController.swift in Sources */,
 				CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */,
