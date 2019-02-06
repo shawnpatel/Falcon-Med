@@ -8,12 +8,28 @@
 
 import UIKit
 
+import Firebase
+
 class FlightViewController: UIViewController {
 
     @IBOutlet weak var agree: UISwitch!
     
+    // Firebase
+    var databaseRef: DatabaseReference!
+    var uid: String!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.databaseRef.child("flights/\(uid!)/live").removeValue()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize Firebase References and UID
+        databaseRef = Database.database().reference()
+        uid = Auth.auth().currentUser?.uid
     }
     
     override func viewDidDisappear(_ animated: Bool) {

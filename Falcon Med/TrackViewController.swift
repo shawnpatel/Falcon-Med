@@ -121,7 +121,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     func refreshData() {
         databaseRef.child("flights").child(uid).child("live").observe(.childChanged, with: { (snapshot) -> Void in
             let key = snapshot.key
-            let value = snapshot.value as? Double
+            let value = snapshot.value
             
             switch key {
                 case "latitude":
@@ -129,11 +129,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     index = self.coordinates.text?.index(index!, offsetBy: 2)
                     let longitude = String((self.coordinates.text?.suffix(from: index!))!)
                 
-                    self.coordinates.text = "\(value!), \(longitude)"
+                    self.coordinates.text = "\(value as! Double), \(longitude)"
                 
                     // Update Drone's Location on Map
                     let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(value!), longitude: CLLocationDegrees(Double(longitude)!))
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(value as! Double), longitude: CLLocationDegrees(Double(longitude)!))
                     annotation.title = "Drone"
                     self.map.removeAnnotations(self.map.annotations)
                     self.map.addAnnotation(annotation)
@@ -141,31 +141,47 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     let index = self.coordinates.text?.firstIndex(of: ",")
                     let latitude = String((self.coordinates.text?.prefix(upTo: index!))!)
                 
-                    self.coordinates.text = "\(latitude), \(value!)"
+                    self.coordinates.text = "\(latitude), \(value as! Double)"
                     
                     // Update Drone's Location on Map
                     let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(latitude)!), longitude: CLLocationDegrees(value!))
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(latitude)!), longitude: CLLocationDegrees(value as! Double))
                     annotation.title = "Drone"
                     self.map.removeAnnotations(self.map.annotations)
                     self.map.addAnnotation(annotation)
                 case "altitude":
-                    self.altitude.text = "\(value!) FT"
+                    self.altitude.text = "\(value as! Double) FT"
                 case "heading":
-                    self.heading.text = "\(Int(value!))°"
+                    self.heading.text = "\(value as! Int)°"
                 case "speed":
-                    self.speedGauge.value = CGFloat(value!)
+                    self.speedGauge.value = CGFloat(value as! Double)
                 case "accelX":
-                    self.accelX.text = "\(value!) Gs"
+                    self.accelX.text = "\(value as! Double) Gs"
                 case "accelY":
-                    self.accelY.text = "\(value!) Gs"
+                    self.accelY.text = "\(value as! Double) Gs"
                 case "accelZ":
-                    self.accelZ.text = "\(value!) Gs"
+                    self.accelZ.text = "\(value as! Double) Gs"
+                case "image":
+                    self.downloadImage(url: value as! String)
                 default:
                     break
             }
         }) { (error) in
             print(error.localizedDescription)
+        }
+    }
+    
+    func downloadImage(url: String) {
+        let httpsRef = storage.reference(forURL: url)
+        
+        httpsRef.getData(maxSize: Int64.max) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                
+                self.liveView.image = image
+            }
         }
     }
     

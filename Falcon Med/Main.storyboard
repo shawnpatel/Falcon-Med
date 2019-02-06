@@ -928,7 +928,7 @@
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sIJ-Fr-M6n">
                                         <rect key="frame" x="0.0" y="204" width="404" height="204.33333333333337"/>
                                     </mapView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPT-FA-HGY">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XPT-FA-HGY">
                                         <rect key="frame" x="0.0" y="408.33333333333331" width="404" height="204.66666666666669"/>
                                     </imageView>
                                 </subviews>

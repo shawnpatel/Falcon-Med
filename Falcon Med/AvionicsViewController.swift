@@ -299,7 +299,29 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         let rawImage = UIImage(data: imageData)?.cgImage
         let orientedImage = UIImage(cgImage: rawImage!, scale: 1, orientation: .up)
         
+        uploadLiveImage(image: orientedImage)
         detectFaceIn(image: orientedImage)
+    }
+    
+    func uploadLiveImage(image: UIImage) {
+        let imageData = image.jpegData(compressionQuality: 0.1)
+        let imageRef = storageRef.child("\(uid!)/live.jpeg")
+        
+        imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
+            guard metadata != nil else {
+                print(error?.localizedDescription ?? "Image Upload Error")
+                return
+            }
+            
+            imageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    print(error?.localizedDescription ?? "Unable to Access Download URL")
+                    return
+                }
+                
+                self.databaseRef.child("flights/\(self.uid!)/live/image").setValue(downloadURL.absoluteString)
+            }
+        }
     }
     
     // MARK: Image Analysis
@@ -318,12 +340,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             guard error == nil, let faces = faces, !faces.isEmpty else {
                 print(error?.localizedDescription ?? "No Face Detected")
                 
-                let sceneAnalysis = ImageAnalysis(model: GoogLeNetPlaces().model, image: image)
-                sceneAnalysis.detect(completion: { (error, scene) in
-                    if error != nil {
-                        self.databaseRef.child("flights/\(self.uid!)/live/scene").setValue(scene)
-                    }
-                })
                 return
             }
             
