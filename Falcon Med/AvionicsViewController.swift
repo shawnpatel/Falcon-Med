@@ -13,9 +13,9 @@ import CoreLocation
 import CoreMotion
 import MapKit
 import AVFoundation
-import LMGaugeView
 
 import Firebase
+import LMGaugeView
 
 class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AVCapturePhotoCaptureDelegate {
     
