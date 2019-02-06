@@ -813,14 +813,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRd-ss-Os4">
-                                                <rect key="frame" x="0.0" y="86" width="404" height="77"/>
+                                                <rect key="frame" x="0.0" y="86" width="404" height="82"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mWS-GQ-KCN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="163.33333333333334" height="77"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="161" height="82"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h9U-ea-EKC" customClass="LMGaugeView">
-                                                        <rect key="frame" x="163.33333333333334" y="0.0" width="77.333333333333343" height="77"/>
+                                                        <rect key="frame" x="161" y="0.0" width="82" height="82"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="ringThickness">
@@ -853,7 +853,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uga-Cq-GIK">
-                                                        <rect key="frame" x="240.66666666666663" y="0.0" width="163.33333333333337" height="77"/>
+                                                        <rect key="frame" x="243" y="0.0" width="161" height="82"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </view>
                                                 </subviews>
@@ -865,14 +865,14 @@
                                                 </constraints>
                                             </stackView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="exr-yF-lwL">
-                                                <rect key="frame" x="0.0" y="165" width="404" height="3"/>
+                                                <rect key="frame" x="0.0" y="170" width="404" height="3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="3" id="W2G-MX-NwN"/>
                                                 </constraints>
                                                 <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </progressView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kXw-4U-zSa">
-                                                <rect key="frame" x="0.0" y="170" width="404" height="12"/>
+                                                <rect key="frame" x="0.0" y="175" width="404" height="12"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accel-X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0a-z9-ukz">
                                                         <rect key="frame" x="0.0" y="0.0" width="134.66666666666666" height="12"/>
@@ -898,7 +898,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="nVz-W5-Fyo">
-                                                <rect key="frame" x="0.0" y="184" width="404" height="15"/>
+                                                <rect key="frame" x="0.0" y="189" width="404" height="15"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH8-g5-GR4">
                                                         <rect key="frame" x="0.0" y="0.0" width="134.66666666666666" height="15"/>
@@ -923,13 +923,6 @@
                                                     <constraint firstAttribute="height" constant="15" id="3Lb-YY-YEB"/>
                                                 </constraints>
                                             </stackView>
-                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="Pvg-vo-RFB">
-                                                <rect key="frame" x="0.0" y="201" width="404" height="3"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="3" id="10T-rA-klL"/>
-                                                </constraints>
-                                                <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </progressView>
                                         </subviews>
                                     </stackView>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sIJ-Fr-M6n">

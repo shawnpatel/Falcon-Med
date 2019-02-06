@@ -99,6 +99,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 self.accelY.text = "\(accelY!) Gs"
                 self.accelZ.text = "\(accelZ!) Gs"
                 
+                // Add Drone's Location to Map
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude!), longitude: CLLocationDegrees(longitude!))
+                annotation.title = "Drone"
+                self.map.addAnnotation(annotation)
+                
                 self.refreshData()
             } else {
                 // Not Live
@@ -124,11 +130,25 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     let longitude = String((self.coordinates.text?.suffix(from: index!))!)
                 
                     self.coordinates.text = "\(value!), \(longitude)"
+                
+                    // Update Drone's Location on Map
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(value!), longitude: CLLocationDegrees(Double(longitude)!))
+                    annotation.title = "Drone"
+                    self.map.removeAnnotations(self.map.annotations)
+                    self.map.addAnnotation(annotation)
                 case "longitude":
                     let index = self.coordinates.text?.firstIndex(of: ",")
                     let latitude = String((self.coordinates.text?.prefix(upTo: index!))!)
                 
                     self.coordinates.text = "\(latitude), \(value!)"
+                    
+                    // Update Drone's Location on Map
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(latitude)!), longitude: CLLocationDegrees(value!))
+                    annotation.title = "Drone"
+                    self.map.removeAnnotations(self.map.annotations)
+                    self.map.addAnnotation(annotation)
                 case "altitude":
                     self.altitude.text = "\(value!) FT"
                 case "heading":
