@@ -1,7 +1,5 @@
 AvionicsViewController
 - Configure UI for acceleration data.
 
-FlightSummaryViewController
-- Display multiple map annotations.
-
-TrackViewController <Create>
+ThermalCam
+- Connect to thermal camera via bluetooth.

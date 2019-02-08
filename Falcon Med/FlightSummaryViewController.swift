@@ -57,6 +57,8 @@ class FlightSummaryViewController: UIViewController, MKMapViewDelegate {
             
             historicalIndex += 1
         }
+        
+        self.map.showAnnotations(self.map.annotations, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

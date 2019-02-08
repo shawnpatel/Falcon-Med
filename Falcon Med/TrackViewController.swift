@@ -40,22 +40,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     var detectedPeople: [DetectedPerson]!
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        // Create Activity Indicator
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.backgroundColor = UIColor.lightGray
-        activityIndicator.layer.cornerRadius = 5
-        activityIndicator.center = view.convert(view.center, from: view.superview)
+        activityIndicator.layer.cornerRadius = 0
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
-        
-        checkIfDroneIsLive()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         // Setup Map Properties
         map.delegate = self
@@ -76,11 +70,21 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         // Instantiate Global Variables
         takeoffTime = UserDefaults.standard.integer(forKey: "takeoffTime")
+        
+        checkIfDroneIsLive()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Center Activity Indicator
+        activityIndicator.center = view.convert(view.center, from: view.superview)
     }
     
     func checkIfDroneIsLive() {
         databaseRef.child("flights").child(uid).child("live").observeSingleEvent(of: .value, with: { (snapshot) in
             self.activityIndicator.stopAnimating()
+            
             if let databaseData = snapshot.value as? NSDictionary {
                 // Live
                 
