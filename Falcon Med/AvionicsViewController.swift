@@ -53,6 +53,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var stillImageOutput: AVCapturePhotoOutput!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
+    // Thermal Cam
+    var thermalCam: ThermalCam!
+    
     // Firebase
     var databaseRef: DatabaseReference!
     var storageRef: StorageReference!
@@ -157,6 +160,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         speedGauge.maxValue = 10
         speedGauge.valueFont = UIFont.systemFont(ofSize: 33, weight: .semibold)
         speedGauge.unitOfMeasurementFont = UIFont.systemFont(ofSize: 9, weight: .regular)
+        
+        // Thermal Cam
+        thermalCam = ThermalCam()
         
         // Initialize Firebase References and UID
         databaseRef = Database.database().reference()

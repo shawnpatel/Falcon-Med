@@ -28,6 +28,7 @@
 		CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */; };
 		CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */; };
 		CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360921DDB3B70069C4E2 /* TODO.txt */; };
+		CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD4F201220DEF4900D406F8 /* ThermalCam.swift */; };
 		CAD7BBA62207FC8F00ED845C /* HistoryDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */; };
 		CAD7BBA82207FCB000ED845C /* FlightMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */; };
 		F2F1B89F4715A0BAAFD80CDC /* Pods_Falcon_Med.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */; };
@@ -60,6 +61,7 @@
 		CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CAAF360821DDB3B70069C4E2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAF360921DDB3B70069C4E2 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		CAD4F201220DEF4900D406F8 /* ThermalCam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThermalCam.swift; sourceTree = "<group>"; };
 		CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */,
+				CAD4F201220DEF4900D406F8 /* ThermalCam.swift */,
 				CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */,
 				CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */,
 				CA95EA272207A88000FC7A7A /* Extensions.swift */,
@@ -354,6 +357,7 @@
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
 				CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */,
 				CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */,
+				CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */,
 				CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */,
 				CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */,
 				CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */,
@@ -489,6 +493,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YBJ2RY5U57;
 				INFOPLIST_FILE = "Falcon Med/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,7 +502,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -510,6 +515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YBJ2RY5U57;
 				INFOPLIST_FILE = "Falcon Med/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -517,7 +523,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shawnpatel.Falcon-Med";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
