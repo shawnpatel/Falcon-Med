@@ -29,11 +29,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var altitudeLabel: UILabel!
     @IBOutlet weak var speedGauge: LMGaugeView!
     
-    @IBOutlet weak var accelerationGraph: UIImageView!
-    @IBOutlet weak var accelerationPoint: UIImageView!
-    
-    @IBOutlet weak var accelerationPointWidth: NSLayoutConstraint!
-    @IBOutlet weak var accelerationPointHeight: NSLayoutConstraint!
+    @IBOutlet weak var accelXLabel: UILabel!
+    @IBOutlet weak var accelYLabel: UILabel!
+    @IBOutlet weak var accelZLabel: UILabel!
     
     // Timers
     var telemetryTimer: Timer!
@@ -220,51 +218,9 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             accelZ = Double(acceleration.z).roundTo(places: 2)
             
             // Update UI
-            /*let maxAccel = Double(1)
-            
-            let graphCenterX = Double(accelerationGraph.center.x)
-            let graphCenterY = Double(accelerationGraph.center.y)
-            
-            let graphWidth = Double(accelerationGraph.frame.width / 2)
-            let graphHeight = Double(accelerationGraph.frame.height / 2)
-            
-            let pointCenterX = Double(accelerationPoint.center.x)
-            let pointCenterY = Double(accelerationPoint.center.y)
-            
-            let accelerationPointDiameter = Double(accelerationPointWidth.constant)
-            
-            if accelX > 0 {
-                let deltaX = graphCenterX + (graphWidth * (accelX / maxAccel))
-                accelerationPoint.center = CGPoint(x: deltaX, y: pointCenterY)
-            } else if accelX < 0 {
-                let deltaX = graphCenterX - (graphWidth * (-accelX / maxAccel))
-                accelerationPoint.center = CGPoint(x: deltaX, y: pointCenterY)
-            } else {
-                accelerationPoint.center = CGPoint(x: graphCenterX, y: pointCenterY)
-            }
-            
-            if accelY > 0 {
-                let deltaY = graphCenterY + (graphHeight * (accelY / maxAccel))
-                accelerationPoint.center = CGPoint(x: pointCenterX, y: deltaY)
-            } else if accelY < 0 {
-                let deltaY = graphCenterY - (graphHeight * (-accelY / maxAccel))
-                accelerationPoint.center = CGPoint(x: pointCenterX, y: deltaY)
-            } else {
-                accelerationPoint.center = CGPoint(x: pointCenterY, y: graphCenterY)
-            }
-            
-            if accelZ > 0 {
-                let diameter = CGFloat(accelerationPointDiameter + (accelerationPointDiameter * (accelZ / maxAccel)))
-                accelerationPointWidth.constant = diameter
-                accelerationPointHeight.constant = diameter
-            } else if accelZ < 0 {
-                let diameter = CGFloat(accelerationPointDiameter - (accelerationPointDiameter * (-accelZ / maxAccel)))
-                accelerationPointWidth.constant = diameter
-                accelerationPointHeight.constant = diameter
-            } else {
-                accelerationPointWidth.constant = 25
-                accelerationPointHeight.constant = 25
-            }*/
+            accelXLabel.text = "\(accelX!) Gs"
+            accelYLabel.text = "\(accelY!) Gs"
+            accelZLabel.text = "\(accelZ!) Gs"
             
             // Save Motion Data to Firebase
             self.databaseRef.child("flights/\(uid!)/live/accelX").setValue(accelX)

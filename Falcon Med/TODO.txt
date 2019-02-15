@@ -1,5 +1,2 @@
-AvionicsViewController
-- Configure UI for acceleration data.
-
 ThermalCam
 - Connect to thermal camera via bluetooth.
