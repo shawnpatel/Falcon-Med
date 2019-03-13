@@ -57,6 +57,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     // Firebase
     var databaseRef: DatabaseReference!
     var storageRef: StorageReference!
+    var liveStorageUploadTask: StorageUploadTask!
     var uid: String!
     
     let options = VisionFaceDetectorOptions()
@@ -269,7 +270,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         let imageData = image.jpegData(compressionQuality: 0.1)
         let imageRef = storageRef.child("\(uid!)/live.jpeg")
         
-        imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
+        liveStorageUploadTask = imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
             guard metadata != nil else {
                 print(error?.localizedDescription ?? "Image Upload Error")
                 return
@@ -461,6 +462,7 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
         
+        liveStorageUploadTask.cancel()
         self.databaseRef.child("flights/\(uid!)/live").removeValue()
     }
     

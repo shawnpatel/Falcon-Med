@@ -1,2 +1,5 @@
+Phone Call
+- Initiate phone call from first responder's perspective when person is detected.
+
 ThermalCam
 - Connect to thermal camera via bluetooth.

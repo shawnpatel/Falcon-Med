@@ -68,9 +68,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         storage = Storage.storage()
         uid = Auth.auth().currentUser?.uid
         
-        // Instantiate Global Variables
-        takeoffTime = UserDefaults.standard.integer(forKey: "takeoffTime")
-        
         checkIfDroneIsLive()
     }
     
@@ -87,6 +84,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
             
             if let databaseData = snapshot.value as? NSDictionary {
                 // Live
+                
+                self.takeoffTime = databaseData["takeoffTime"] as? Int
                 
                 let latitude = databaseData["latitude"] as? Double
                 let longitude = databaseData["longitude"] as? Double
@@ -190,11 +189,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     func refreshPersonDetection() {
         databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observe(.childAdded, with: { (snapshot) -> Void in
             // Person Detected
-            let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information.", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information. Would you like to talk with them?", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                if let url = URL(string: "tel://714-947-3096"), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
+                }
+            }))
+            alertController.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
             
-            if let face = snapshot.value as? NSDictionary {
+            /*if let face = snapshot.value as? NSDictionary {
                 let latitude = face.value(forKey: "latitude") as! Double
                 let longitude = face.value(forKey: "longitude") as! Double
                 let altitude = face.value(forKey: "altitude") as! Double
@@ -209,10 +213,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 let imageURL = face.value(forKey: "image") as! String
                 
                 let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
+                
                 self.detectedPeople.append(detectedPerson)
                 
                 self.downloadFaceImage(url: imageURL, index: self.detectedPeople.count - 1)
-            }
+            }*/
         }) { (error) in
             print(error.localizedDescription)
         }

@@ -18,12 +18,6 @@ class FlightViewController: UIViewController {
     var databaseRef: DatabaseReference!
     var uid: String!
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.databaseRef.child("flights/\(uid!)/live").removeValue()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +38,7 @@ class FlightViewController: UIViewController {
         
             let takeoffTime = Int(NSDate().timeIntervalSince1970)
             UserDefaults.standard.set(takeoffTime, forKey: "takeoffTime")
+            self.databaseRef.child("flights/\(uid!)/live/takeoffTime").setValue(takeoffTime)
             
             self.performSegue(withIdentifier: "flightToAvionics", sender: self)
         } else {
