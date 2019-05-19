@@ -48,7 +48,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         activityIndicator.backgroundColor = UIColor.lightGray
         activityIndicator.layer.cornerRadius = 0
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
         
         // Setup Map Properties
@@ -67,8 +66,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         databaseRef = Database.database().reference()
         storage = Storage.storage()
         uid = Auth.auth().currentUser?.uid
-        
-        checkIfDroneIsLive()
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,16 +96,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 let accelY = databaseData["accelY"] as? Double
                 let accelZ = databaseData["accelZ"] as? Double
                 
-                self.coordinates.text = "\(latitude!), \(longitude!)"
+                self.coordinates.text = "\(latitude ?? 0), \(longitude ?? 0)"
                 
-                self.altitude.text = "\(altitude!) FT"
-                self.heading.text = "\(heading!)°"
+                self.altitude.text = "\(altitude ?? 0) FT"
+                self.heading.text = "\(heading ?? 0)°"
                 
-                self.speedGauge.value = CGFloat(speed!)
+                self.speedGauge.value = CGFloat(speed ?? 0)
                 
-                self.accelX.text = "\(accelX!) Gs"
-                self.accelY.text = "\(accelY!) Gs"
-                self.accelZ.text = "\(accelZ!) Gs"
+                self.accelX.text = "\(accelX ?? 0) Gs"
+                self.accelY.text = "\(accelY ?? 0) Gs"
+                self.accelZ.text = "\(accelZ ?? 0) Gs"
                 
                 // Add Drone's Location to Map
                 let annotation = MKPointAnnotation()
@@ -186,20 +183,44 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func downloadLiveImage(url: String) {
+        let httpsRef = storage.reference(forURL: url)
+        
+        httpsRef.getData(maxSize: Int64.max) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                let image = UIImage(data: data!)
+                
+                self.liveView.contentMode = .scaleAspectFill
+                self.liveView.image = image
+            }
+        }
+    }
+    
     func refreshPersonDetection() {
         databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observe(.childAdded, with: { (snapshot) -> Void in
             // Person Detected
             let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information. Would you like to talk with them?", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-                if let url = URL(string: "tel://714-947-3096"), UIApplication.shared.canOpenURL(url) {
+                if let url = URL(string: "tel://714-345-0931"), UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
                 }
             }))
             alertController.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
             self.present(alertController, animated: true, completion: nil)
             
-            /*if let face = snapshot.value as? NSDictionary {
-                let latitude = face.value(forKey: "latitude") as! Double
+            self.downloadFaceData()
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    func downloadFaceData() {
+        databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let face = snapshot.value as? NSDictionary {
+                print(face)
+                /*let latitude = face.value(forKey: "latitude") as! Double
                 let longitude = face.value(forKey: "longitude") as! Double
                 let altitude = face.value(forKey: "altitude") as! Double
                 
@@ -216,25 +237,10 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 
                 self.detectedPeople.append(detectedPerson)
                 
-                self.downloadFaceImage(url: imageURL, index: self.detectedPeople.count - 1)
-            }*/
+                self.downloadFaceImage(url: imageURL, index: self.detectedPeople.count - 1)*/
+            }
         }) { (error) in
             print(error.localizedDescription)
-        }
-    }
-    
-    func downloadLiveImage(url: String) {
-        let httpsRef = storage.reference(forURL: url)
-        
-        httpsRef.getData(maxSize: Int64.max) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                
-                self.liveView.contentMode = .scaleAspectFill
-                self.liveView.image = image
-            }
         }
     }
     

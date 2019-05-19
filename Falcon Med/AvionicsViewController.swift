@@ -51,9 +51,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
     var stillImageOutput: AVCapturePhotoOutput!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     
-    // Thermal Cam
-    var thermalCam: ThermalCam!
-    
     // Firebase
     var databaseRef: DatabaseReference!
     var storageRef: StorageReference!
@@ -159,9 +156,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
         speedGauge.maxValue = 10
         speedGauge.valueFont = UIFont.systemFont(ofSize: 33, weight: .semibold)
         speedGauge.unitOfMeasurementFont = UIFont.systemFont(ofSize: 9, weight: .regular)
-        
-        // Thermal Cam
-        thermalCam = ThermalCam()
         
         // Initialize Firebase References and UID
         databaseRef = Database.database().reference()
@@ -328,13 +322,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             detectedPerson.image = image
             self.detectedPeople.append(detectedPerson)
             
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/latitude").setValue(self.latitude)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/longitude").setValue(self.longitude)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/altitude").setValue(self.altitude)
-            
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(leftEyeOpenProbability)
-            self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(rightEyeOpenProbability)
-            
             // Add Pin to Map
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.latitude), longitude: CLLocationDegrees(self.longitude))
@@ -363,6 +350,19 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
                     return
                 }
                 
+                // Save Face Data
+                
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/latitude").setValue(self.detectedPeople.last?.latitude)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/longitude").setValue(self.detectedPeople.last?.longitude)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/altitude").setValue(self.detectedPeople.last?.altitude)
+                
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/leftEyeOpenProbability").setValue(self.detectedPeople.last?.leftEyeOpenProbability)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/rightEyeOpenProbability").setValue(self.detectedPeople.last?.rightEyeOpenProbability)
+                
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(self.detectedPeople.last?.scene)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(self.detectedPeople.last?.gender)
+                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(self.detectedPeople.last?.age)
+                
                 self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/image").setValue(downloadURL.absoluteString)
             }
         }
@@ -374,7 +374,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             if error == nil {
                 // Save Data
                 self.detectedPeople.last?.scene = scene!
-                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/scene").setValue(scene)
             }
         })
         
@@ -383,7 +382,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             if error == nil {
                 // Save Data
                 self.detectedPeople.last?.gender = gender!
-                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/gender").setValue(gender)
             }
         })
         
@@ -392,7 +390,6 @@ class AvionicsViewController: UIViewController, CLLocationManagerDelegate, MKMap
             if error == nil {
                 // Save Data
                 self.detectedPeople.last?.age = age!
-                self.databaseRef.child("flights/\(self.uid!)/historical/\(self.takeoffTime!)/faces/\(self.timestamp!)/age").setValue(age)
             }
         })
     }

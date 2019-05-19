@@ -18,6 +18,12 @@ class FlightViewController: UIViewController {
     var databaseRef: DatabaseReference!
     var uid: String!
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.databaseRef.child("flights/\(uid!)/live").removeValue()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
