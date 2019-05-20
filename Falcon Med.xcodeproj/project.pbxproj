@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */; };
 		CA1BB5E9220B481F00C5DE2B /* TrackDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */; };
+		CA1BC66B2291CE3900002938 /* NetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1BC66A2291CE3900002938 /* NetworkCalls.swift */; };
 		CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */; };
 		CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */; };
 		CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */; };
@@ -40,6 +41,7 @@
 		8BC45D427D330C6DDA27F35D /* Pods-Falcon Med.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Falcon Med.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Falcon Med/Pods-Falcon Med.debug.xcconfig"; sourceTree = "<group>"; };
 		CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedPerson.swift; sourceTree = "<group>"; };
 		CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsTableViewController.swift; sourceTree = "<group>"; };
+		CA1BC66A2291CE3900002938 /* NetworkCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCalls.swift; sourceTree = "<group>"; };
 		CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
 		CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryViewController.swift; sourceTree = "<group>"; };
 		CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		CAEC578421E3CAD400CFA194 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				CA1BC66A2291CE3900002938 /* NetworkCalls.swift */,
 				CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */,
 				CAD4F201220DEF4900D406F8 /* ThermalCam.swift */,
 				CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */,
@@ -228,7 +231,7 @@
 				TargetAttributes = {
 					CAAF35E521DDB3510069C4E2 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -357,6 +360,7 @@
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
 				CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */,
 				CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */,
+				CA1BC66B2291CE3900002938 /* NetworkCalls.swift in Sources */,
 				CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */,
 				CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */,
 				CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */,
@@ -501,7 +505,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shawnpatel.Falcon-Med";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -522,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shawnpatel.Falcon-Med";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

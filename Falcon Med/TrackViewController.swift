@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import MapKit
 
 import Firebase
@@ -32,7 +33,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     // Firebase
     var databaseRef: DatabaseReference!
-    var storage: Storage!
     var uid: String!
     
     // Global Variables
@@ -42,6 +42,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        detectedPeople = []
         
         // Create Activity Indicator
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -64,7 +66,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         // Instantiate Firebase Constants
         databaseRef = Database.database().reference()
-        storage = Storage.storage()
         uid = Auth.auth().currentUser?.uid
     }
     
@@ -174,7 +175,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 case "accelZ":
                     self.accelZ.text = "\(value as! Double) Gs"
                 case "image":
-                    self.downloadLiveImage(url: value as! String)
+                    NetworkCalls.downloadImage(value as! String) { response in
+                        switch response {
+                        case .failure(let error):
+                            print(error)
+                            
+                        case .success(let image):
+                            self.liveView.contentMode = .scaleAspectFill
+                            self.liveView.image = image
+                        }
+                    }
                 default:
                     break
             }
@@ -183,79 +193,87 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func downloadLiveImage(url: String) {
-        let httpsRef = storage.reference(forURL: url)
-        
-        httpsRef.getData(maxSize: Int64.max) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                
-                self.liveView.contentMode = .scaleAspectFill
-                self.liveView.image = image
-            }
-        }
-    }
-    
     func refreshPersonDetection() {
-        databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observe(.childAdded, with: { (snapshot) -> Void in
+        databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observe(.childChanged, with: { (snapshot) -> Void in
             // Person Detected
-            let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information. Would you like to talk with them?", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-                if let url = URL(string: "tel://714-345-0931"), UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url)
-                }
-            }))
-            alertController.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
-            
-            self.downloadFaceData()
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
-    
-    func downloadFaceData() {
-        databaseRef.child("flights/\(uid!)/historical/\(String(takeoffTime))/faces").observeSingleEvent(of: .value, with: { (snapshot) in
             if let face = snapshot.value as? NSDictionary {
-                print(face)
-                /*let latitude = face.value(forKey: "latitude") as! Double
-                let longitude = face.value(forKey: "longitude") as! Double
-                let altitude = face.value(forKey: "altitude") as! Double
-                
-                let leftEyeOpenProbability = face.value(forKey: "leftEyeOpenProbability") as! Int
-                let rightEyeOpenProbability = face.value(forKey: "rightEyeOpenProbability") as! Int
-                
-                let gender = face.value(forKey: "gender") as! String
-                let age = face.value(forKey: "age") as! String
-                let scene = face.value(forKey: "scene") as! String
-                
-                let imageURL = face.value(forKey: "image") as! String
-                
-                let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
-                
-                self.detectedPeople.append(detectedPerson)
-                
-                self.downloadFaceImage(url: imageURL, index: self.detectedPeople.count - 1)*/
+                if let image = face.value(forKey: "image") as? String {
+                    let latitude = face.value(forKey: "latitude") as! Double
+                    let longitude = face.value(forKey: "longitude") as! Double
+                    let altitude = face.value(forKey: "altitude") as! Double
+                     
+                    let leftEyeOpenProbability = face.value(forKey: "leftEyeOpenProbability") as! Int
+                    let rightEyeOpenProbability = face.value(forKey: "rightEyeOpenProbability") as! Int
+                     
+                    let gender = face.value(forKey: "gender") as! String
+                    let age = face.value(forKey: "age") as! String
+                    let scene = face.value(forKey: "scene") as! String
+                     
+                    let imageURL = image
+                     
+                    let detectedPerson = DetectedPerson(latitude, longitude, altitude, leftEyeOpenProbability, rightEyeOpenProbability, gender, age, scene)
+                    
+                    NetworkCalls.downloadImage(imageURL) { response in
+                        switch response {
+                        case .failure(let error):
+                            print(error)
+                            
+                        case .success(let image):
+                            detectedPerson.image = image
+                            
+                            self.detectedPeople.append(detectedPerson)
+                            
+                            self.detectedPersonAlert()
+                        }
+                    }
+                }
             }
         }) { (error) in
             print(error.localizedDescription)
         }
     }
     
-    func downloadFaceImage(url: String, index: Int) {
-        let httpsRef = storage.reference(forURL: url)
+    func detectedPersonAlert() {
+        let scene = self.detectedPeople.last?.scene
+        let leftEyeOpen = self.detectedPeople.last?.leftEyeOpenProbability ?? 0
+        let rightEyeOpen = self.detectedPeople.last?.rightEyeOpenProbability ?? 0
         
-        httpsRef.getData(maxSize: Int64.max) { data, error in
-            if let error = error {
-                print(error)
-            } else {
-                let image = UIImage(data: data!)
-                
-                self.detectedPeople[index].image = image!
-            }
+        if (leftEyeOpen >= 50 || rightEyeOpen >= 50) && scene != nil {
+            self.speak("A person is located in \(scene!.aOrAn()) \(scene!) and is determined to be alive.")
+        } else {
+            self.speak("A person is located in \(scene!.aOrAn()) \(scene!) and cannot be determined as alive or dead.")
         }
+        
+        let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information.", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Call", style: .default, handler: { action in
+            if let url = URL(string: "tel://714-345-0931"), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Directions", style: .default, handler: { action in
+            let latitude = self.detectedPeople.last?.latitude
+            let longitude = self.detectedPeople.last?.longitude
+            
+            let regionDistance: CLLocationDistance = 10000
+            let coordinates = CLLocationCoordinate2DMake(latitude!, longitude!)
+            let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+            
+            let options = [
+                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+            ]
+            
+            let placemark = MKPlacemark(coordinate: coordinates)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = "Detected Person"
+            mapItem.openInMaps(launchOptions: options)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func refresh(_ sender: UIBarButtonItem) {
@@ -267,5 +285,13 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         if let destination = segue.destination as? TrackDetailsTableViewController {
             destination.detectedPeople = detectedPeople
         }
+    }
+    
+    func speak(_ text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-CN")
+        
+        let synth = AVSpeechSynthesizer()
+        synth.speak(utterance)
     }
 }

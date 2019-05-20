@@ -8,6 +8,18 @@
 
 import UIKit
 
+extension String {
+    func aOrAn() -> String {
+        let vowels: [Character] = ["a", "e", "i", "o", "u"]
+        
+        if vowels.contains(self.lowercased().first!) {
+            return "an"
+        } else {
+            return "a"
+        }
+    }
+}
+
 extension Int {
     func getTimeFromSecondsSince1970() -> String {
         let date = Date(timeIntervalSince1970: Double(self))
