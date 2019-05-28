@@ -16,14 +16,13 @@
 		CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */; };
 		CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */; };
 		CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA272207A88000FC7A7A /* Extensions.swift */; };
-		CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */; };
+		CA95EA2B2207F54D00FC7A7A /* NonDJITrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA2A2207F54D00FC7A7A /* NonDJITrackViewController.swift */; };
 		CA95EA2F2207F58B00FC7A7A /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA2E2207F58B00FC7A7A /* HistoryTableViewController.swift */; };
 		CA95EA322207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA95EA312207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift */; };
 		CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FD21DDB3B00069C4E2 /* AgeNet.mlmodel */; };
 		CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */; };
 		CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */; };
 		CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */; };
-		CAAF360E21DDB3B70069C4E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360121DDB3B30069C4E2 /* Assets.xcassets */; };
 		CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360221DDB3B60069C4E2 /* GenderNet.mlmodel */; };
 		CAAF361021DDB3B70069C4E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360321DDB3B60069C4E2 /* Main.storyboard */; };
 		CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */; };
@@ -31,6 +30,9 @@
 		CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */; };
 		CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */; };
 		CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAAF360921DDB3B70069C4E2 /* TODO.txt */; };
+		CAC25EF1229CC519004E30A8 /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC25EF0229CC519004E30A8 /* TrackViewController.swift */; };
+		CAC25EF3229CC52C004E30A8 /* DJITrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC25EF2229CC52C004E30A8 /* DJITrackViewController.swift */; };
+		CAC25EF5229CC941004E30A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC25EF4229CC93F004E30A8 /* Assets.xcassets */; };
 		CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD4F201220DEF4900D406F8 /* ThermalCam.swift */; };
 		CAD7BBA62207FC8F00ED845C /* HistoryDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */; };
 		CAD7BBA82207FCB000ED845C /* FlightMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */; };
@@ -50,7 +52,7 @@
 		CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryViewController.swift; sourceTree = "<group>"; };
 		CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
 		CA95EA272207A88000FC7A7A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
+		CA95EA2A2207F54D00FC7A7A /* NonDJITrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonDJITrackViewController.swift; sourceTree = "<group>"; };
 		CA95EA2E2207F58B00FC7A7A /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		CA95EA312207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CAAF35E621DDB3510069C4E2 /* Falcon Med.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Falcon Med.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +60,6 @@
 		CAAF35FE21DDB3B00069C4E2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAAF35FF21DDB3B20069C4E2 /* GoogLeNetPlaces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GoogLeNetPlaces.mlmodel; sourceTree = "<group>"; };
 		CAAF360021DDB3B20069C4E2 /* AvionicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvionicsViewController.swift; sourceTree = "<group>"; };
-		CAAF360121DDB3B30069C4E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAAF360221DDB3B60069C4E2 /* GenderNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GenderNet.mlmodel; sourceTree = "<group>"; };
 		CAAF360321DDB3B60069C4E2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CAAF360421DDB3B60069C4E2 /* FlightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +68,9 @@
 		CAAF360721DDB3B60069C4E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CAAF360821DDB3B70069C4E2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAF360921DDB3B70069C4E2 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		CAC25EF0229CC519004E30A8 /* TrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
+		CAC25EF2229CC52C004E30A8 /* DJITrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DJITrackViewController.swift; sourceTree = "<group>"; };
+		CAC25EF4229CC93F004E30A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAD4F201220DEF4900D406F8 /* ThermalCam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThermalCam.swift; sourceTree = "<group>"; };
 		CAD7BBA52207FC8F00ED845C /* HistoryDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CAD7BBA72207FCB000ED845C /* FlightMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightMapViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +120,9 @@
 		CA95EA2C2207F56400FC7A7A /* Track */ = {
 			isa = PBXGroup;
 			children = (
-				CA95EA2A2207F54D00FC7A7A /* TrackViewController.swift */,
+				CAC25EF0229CC519004E30A8 /* TrackViewController.swift */,
+				CAC25EF2229CC52C004E30A8 /* DJITrackViewController.swift */,
+				CA95EA2A2207F54D00FC7A7A /* NonDJITrackViewController.swift */,
 				CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */,
 			);
 			name = Track;
@@ -171,8 +177,8 @@
 				CA3045A2229231CD00DB2ABC /* Database Models */,
 				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
 				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
-				CAAF360121DDB3B30069C4E2 /* Assets.xcassets */,
 				CAAF361721DDB4120069C4E2 /* ML Models */,
+				CAC25EF4229CC93F004E30A8 /* Assets.xcassets */,
 				CAAF360821DDB3B70069C4E2 /* Info.plist */,
 				CAAF360521DDB3B60069C4E2 /* GoogleService-Info.plist */,
 			);
@@ -272,11 +278,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAAF360E21DDB3B70069C4E2 /* Assets.xcassets in Resources */,
 				CAAF361321DDB3B70069C4E2 /* LaunchScreen.storyboard in Resources */,
 				CAAF361621DDB3B70069C4E2 /* TODO.txt in Resources */,
 				CAAF361021DDB3B70069C4E2 /* Main.storyboard in Resources */,
 				CAAF361221DDB3B70069C4E2 /* GoogleService-Info.plist in Resources */,
+				CAC25EF5229CC941004E30A8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +368,7 @@
 			files = (
 				CAAF361421DDB3B70069C4E2 /* LoginViewController.swift in Sources */,
 				CAD7BBA82207FCB000ED845C /* FlightMapViewController.swift in Sources */,
+				CAC25EF3229CC52C004E30A8 /* DJITrackViewController.swift in Sources */,
 				CAD7BBA62207FC8F00ED845C /* HistoryDetailsTableViewController.swift in Sources */,
 				CA95EA322207F5B700FC7A7A /* FlightSummaryDetailsTableViewController.swift in Sources */,
 				CAAF360B21DDB3B70069C4E2 /* AppDelegate.swift in Sources */,
@@ -372,13 +379,14 @@
 				CA3045A42292356D00DB2ABC /* NetworkError.swift in Sources */,
 				CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */,
 				CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */,
+				CAC25EF1229CC519004E30A8 /* TrackViewController.swift in Sources */,
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
 				CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */,
 				CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */,
 				CA3045A1229231C300DB2ABC /* LiveData.swift in Sources */,
 				CA1BC66B2291CE3900002938 /* NetworkCalls.swift in Sources */,
 				CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */,
-				CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */,
+				CA95EA2B2207F54D00FC7A7A /* NonDJITrackViewController.swift in Sources */,
 				CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */,
 				CAAF360F21DDB3B70069C4E2 /* GenderNet.mlmodel in Sources */,
 				CAAF360C21DDB3B70069C4E2 /* GoogLeNetPlaces.mlmodel in Sources */,
