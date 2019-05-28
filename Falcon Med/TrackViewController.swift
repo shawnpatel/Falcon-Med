@@ -77,62 +77,56 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     }
     
     func checkIfDroneIsLive() {
-        databaseRef.child("flights").child(uid).child("live").observeSingleEvent(of: .value, with: { (snapshot) in
+        NetworkCalls.downloadLiveData() { response in
             self.activityIndicator.stopAnimating()
             
-            if let databaseData = snapshot.value as? NSDictionary {
+            switch response {
+            case .success(let liveData):
                 // Live
                 
-                self.takeoffTime = databaseData["takeoffTime"] as? Int
+                self.takeoffTime = liveData.takeoffTime
                 
-                let latitude = databaseData["latitude"] as? Double
-                let longitude = databaseData["longitude"] as? Double
+                self.coordinates.text = "\(liveData.latitude), \(liveData.longitude)"
                 
-                let altitude = databaseData["altitude"] as? Double
-                let heading = databaseData["heading"] as? Int
+                self.altitude.text = "\(liveData.altitude) FT"
+                self.heading.text = "\(liveData.heading)°"
                 
-                let speed = databaseData["speed"] as? Double
+                self.speedGauge.value = CGFloat(liveData.speed)
                 
-                let accelX = databaseData["accelX"] as? Double
-                let accelY = databaseData["accelY"] as? Double
-                let accelZ = databaseData["accelZ"] as? Double
-                
-                self.coordinates.text = "\(latitude ?? 0), \(longitude ?? 0)"
-                
-                self.altitude.text = "\(altitude ?? 0) FT"
-                self.heading.text = "\(heading ?? 0)°"
-                
-                self.speedGauge.value = CGFloat(speed ?? 0)
-                
-                self.accelX.text = "\(accelX ?? 0) Gs"
-                self.accelY.text = "\(accelY ?? 0) Gs"
-                self.accelZ.text = "\(accelZ ?? 0) Gs"
+                self.accelX.text = "\(liveData.accelX) Gs"
+                self.accelY.text = "\(liveData.accelY) Gs"
+                self.accelZ.text = "\(liveData.accelZ) Gs"
                 
                 // Add Drone's Location to Map
                 let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude!), longitude: CLLocationDegrees(longitude!))
+                annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(liveData.latitude), longitude: CLLocationDegrees(liveData.longitude))
                 annotation.title = "Drone"
                 self.map.addAnnotation(annotation)
                 
                 self.refreshLiveData()
                 self.refreshPersonDetection()
-            } else {
-                // Not Live
                 
-                self.liveView.contentMode = .scaleAspectFit
-                self.liveView.image = UIImage(named: "Logo.png")
-                
-                let alertController = UIAlertController(title: "Not Live", message: "Your drone is currently not in flight.", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
+            case .failure(let error):
+                if error.errorDescription == "101" {
+                    // Not Live
+                    
+                    self.liveView.contentMode = .scaleAspectFit
+                    self.liveView.image = UIImage(named: "Logo.png")
+                    
+                    let alertController = UIAlertController(title: "Not Live", message: "Your drone is currently not in flight.", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                } else {
+                    // Error
+                    
+                    print(error.errorDescription!)
+                }
             }
-        }) { (error) in
-            print(error.localizedDescription)
         }
     }
     
     func refreshLiveData() {
-        databaseRef.child("flights").child(uid).child("live").observe(.childChanged, with: { (snapshot) -> Void in
+        databaseRef.child("flights/\(uid!)/live").observe(.childChanged, with: { (snapshot) -> Void in
             let key = snapshot.key
             let value = snapshot.value
             
@@ -177,12 +171,13 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                 case "image":
                     NetworkCalls.downloadImage(value as! String) { response in
                         switch response {
-                        case .failure(let error):
-                            print(error)
-                            
                         case .success(let image):
                             self.liveView.contentMode = .scaleAspectFill
                             self.liveView.image = image
+                            
+                        case .failure(let error):
+                            print(error)
+                            
                         }
                     }
                 default:
@@ -215,15 +210,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
                     
                     NetworkCalls.downloadImage(imageURL) { response in
                         switch response {
-                        case .failure(let error):
-                            print(error)
-                            
                         case .success(let image):
                             detectedPerson.image = image
                             
                             self.detectedPeople.append(detectedPerson)
                             
                             self.detectedPersonAlert()
+                            
+                        case .failure(let error):
+                            print(error)
+                            
                         }
                     }
                 }

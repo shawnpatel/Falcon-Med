@@ -10,6 +10,8 @@
 		CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */; };
 		CA1BB5E9220B481F00C5DE2B /* TrackDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */; };
 		CA1BC66B2291CE3900002938 /* NetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1BC66A2291CE3900002938 /* NetworkCalls.swift */; };
+		CA3045A1229231C300DB2ABC /* LiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3045A0229231C300DB2ABC /* LiveData.swift */; };
+		CA3045A42292356D00DB2ABC /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3045A32292356D00DB2ABC /* NetworkError.swift */; };
 		CA3BCF0A21E4798900FE0927 /* ImageAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */; };
 		CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */; };
 		CA4E7B7A21FFB0BE005F5310 /* HistoricalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */; };
@@ -42,6 +44,8 @@
 		CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedPerson.swift; sourceTree = "<group>"; };
 		CA1BB5E8220B481F00C5DE2B /* TrackDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailsTableViewController.swift; sourceTree = "<group>"; };
 		CA1BC66A2291CE3900002938 /* NetworkCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCalls.swift; sourceTree = "<group>"; };
+		CA3045A0229231C300DB2ABC /* LiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveData.swift; sourceTree = "<group>"; };
+		CA3045A32292356D00DB2ABC /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysis.swift; sourceTree = "<group>"; };
 		CA4E7B7721FFAB82005F5310 /* FlightSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightSummaryViewController.swift; sourceTree = "<group>"; };
 		CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalData.swift; sourceTree = "<group>"; };
@@ -86,6 +90,16 @@
 				151558647739AA9A430140B9 /* Pods_Falcon_Med.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA3045A2229231CD00DB2ABC /* Database Models */ = {
+			isa = PBXGroup;
+			children = (
+				CA3045A0229231C300DB2ABC /* LiveData.swift */,
+				CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */,
+				CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */,
+			);
+			name = "Database Models";
 			sourceTree = "<group>";
 		};
 		CA95EA292207F52F00FC7A7A /* Flight */ = {
@@ -154,6 +168,7 @@
 				CA95EA2C2207F56400FC7A7A /* Track */,
 				CA95EA302207F59700FC7A7A /* History */,
 				CAEC578421E3CAD400CFA194 /* Utilities */,
+				CA3045A2229231CD00DB2ABC /* Database Models */,
 				CAAF360621DDB3B60069C4E2 /* LaunchScreen.storyboard */,
 				CAAF360321DDB3B60069C4E2 /* Main.storyboard */,
 				CAAF360121DDB3B30069C4E2 /* Assets.xcassets */,
@@ -180,9 +195,8 @@
 				CA1BC66A2291CE3900002938 /* NetworkCalls.swift */,
 				CA3BCF0921E4798900FE0927 /* ImageAnalysis.swift */,
 				CAD4F201220DEF4900D406F8 /* ThermalCam.swift */,
-				CA04DF4121E8F80300C9F19A /* DetectedPerson.swift */,
-				CA4E7B7921FFB0BE005F5310 /* HistoricalData.swift */,
 				CA95EA272207A88000FC7A7A /* Extensions.swift */,
+				CA3045A32292356D00DB2ABC /* NetworkError.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -355,11 +369,13 @@
 				CA1BB5E9220B481F00C5DE2B /* TrackDetailsTableViewController.swift in Sources */,
 				CAAF360A21DDB3B70069C4E2 /* AgeNet.mlmodel in Sources */,
 				CA95EA2F2207F58B00FC7A7A /* HistoryTableViewController.swift in Sources */,
+				CA3045A42292356D00DB2ABC /* NetworkError.swift in Sources */,
 				CA04DF4221E8F80300C9F19A /* DetectedPerson.swift in Sources */,
 				CAAF361121DDB3B70069C4E2 /* FlightViewController.swift in Sources */,
 				CAAF360D21DDB3B70069C4E2 /* AvionicsViewController.swift in Sources */,
 				CA95EA282207A88000FC7A7A /* Extensions.swift in Sources */,
 				CA4E7B7821FFAB82005F5310 /* FlightSummaryViewController.swift in Sources */,
+				CA3045A1229231C300DB2ABC /* LiveData.swift in Sources */,
 				CA1BC66B2291CE3900002938 /* NetworkCalls.swift in Sources */,
 				CAD4F202220DEF4900D406F8 /* ThermalCam.swift in Sources */,
 				CA95EA2B2207F54D00FC7A7A /* TrackViewController.swift in Sources */,

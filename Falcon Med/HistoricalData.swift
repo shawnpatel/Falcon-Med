@@ -6,6 +6,8 @@
 //  Copyright © 2019 Shawn Patel. All rights reserved.
 //
 
+import Foundation
+
 class HistoricalData {
     
     // Declare Variables
