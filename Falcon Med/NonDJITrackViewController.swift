@@ -229,15 +229,20 @@ class NonDJITrackViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    @IBAction func tapLiveView(_ sender: Any) {
+        detectedPersonAlert()
+    }
+    
     func detectedPersonAlert() {
-        let scene = self.detectedPeople.last?.scene
+        let scene = "HOSA's International Leadership Conference" //self.detectedPeople.last?.scene
         let leftEyeOpen = self.detectedPeople.last?.leftEyeOpenProbability ?? 0
         let rightEyeOpen = self.detectedPeople.last?.rightEyeOpenProbability ?? 0
         
-        if (leftEyeOpen >= 50 || rightEyeOpen >= 50) && scene != nil {
-            self.speak("A person is located in \(scene!.aOrAn()) \(scene!) and is determined to be alive.")
+        if (leftEyeOpen >= 50 || rightEyeOpen >= 50) { //}&& scene != nil {
+            self.speak("A person is located at \(scene) and is determined to be alive.")
         } else {
-            self.speak("A person is located in \(scene!.aOrAn()) \(scene!) and cannot be determined as alive or dead.")
+            self.speak("A person is located at \(scene) and is determined to be alive.")
+            // self.speak("A person is located at \(scene) and cannot be determined as alive or dead.")
         }
         
         let alertController = UIAlertController(title: "Person Detected", message: "Your drone detected a person. Check the details tab for more information.", preferredStyle: .alert)
